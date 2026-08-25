@@ -1,0 +1,6 @@
+{
+  "name": "West Africa Fish Farm",
+  "description": "Premium exporter and breeder of exotic West African freshwater specimens, marine reef life, and unique wild-harvested riverine imports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

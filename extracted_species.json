@@ -1,0 +1,46 @@
+[
+  {
+    "imgIndex": 1,
+    "output": "[\n  {\n    \"commonName\": \"Chinese Snakehead\",\n    \"scientificName\": \"Channa asiatica\",\n    \"description\": \"A subtropical snakehead species distinguished by its brown cylindrical body covered with dark transverse bars, shimmering white or silver diamond-like spots, and a prominent black ocellus near the base of the caudal fin.\",\n    \"careLevel\": \"Moderate\",\n    \"temperament\": \"Aggressive / Predatory\",\n    \"origin\": \"East Asia (China, Taiwan, Vietnam)\",\n    \"diet\": \"Carnivorous (insects, crustaceans, small fish, frozen foods)\",\n    \"tempRange\": \"15-24°C (59-75°F)\",\n    \"phRange\": \"6.0-7.5\",\n    \"minTankSize\": \"55 gallons\"\n  }\n]"
+  },
+  {
+    "imgIndex": 2,
+    "output": "```json\n[\n  {\n    \"commonName\": \"African Arowana\",\n    \"scientificName\": \"Heterotis niloticus\",\n    \"description\": \"A large, ancient bonytongue species featuring prominent heavy scales, long posterior dorsal and anal fins, and visible sensory pores on the head. Displays iridescent green, bronze, and purplish tones.\",\n    \"careLevel\": \"Advanced\",\n    \"temperament\": \"Semi-aggressive\",\n    \"origin\": \"Africa (Nile, Niger, Senegal, and Gambia river basins)\",\n    \"diet\": \"Omnivore (plankton, small invertebrates, worms, floating pellets)\",\n    \"tempRange\": \"24–30°C (75–86°F)\",\n    \"phRange\": \"6.5–7.5\",\n    \"minTankSize\": \"250 gallons\"\n  }\n]\n```"
+  },
+  {
+    "imgIndex": 3,
+    "output": "```json\n[\n  {\n    \"commonName\": \"Costae Tetra\",\n    \"scientificName\": \"Moenkhausia costae\",\n    \"description\": \"An active and attractive schooling characin featuring a shimmering golden-silver body with a reticulated scale pattern and a distinct black horizontal stripe along the caudal peduncle extending into the tail.\",\n    \"careLevel\": \"Easy\",\n    \"temperament\": \"Peaceful\",\n    \"origin\": \"South America (São Francisco River Basin, Brazil)\",\n    \"diet\": \"Omnivore\",\n    \"tempRange\": \"72°F - 80°F (22°C - 27°C)\",\n    \"phRange\": \"6.0 - 7.5\",\n    \"minTankSize\": \"20 gallons\"\n  }\n]\n```"
+  },
+  {
+    "imgIndex": 4,
+    "output": "```json\n[\n  {\n    \"commonName\": \"African Red-Eyed Tetra\",\n    \"scientificName\": \"Arnoldichthys spilopterus\",\n    \"description\": \"A striking African characin featuring prominent red upper eye coloration, shimmering iridescent green and gold body scales, and distinctly striped yellow and black dorsal and anal fins.\",\n    \"careLevel\": \"Moderate\",\n    \"temperament\": \"Peaceful (Schooling)\",\n    \"origin\": \"West Africa (Nigeria)\",\n    \"diet\": \"Omnivore\",\n    \"tempRange\": \"23°C - 28°C (73°F - 82°F)\",\n    \"phRange\": \"6.0 - 7.5\",\n    \"minTankSize\": \"30 gallons\"\n  }\n]\n```"
+  },
+  {
+    "imgIndex": 5,
+    "output": "[\n  {\n    \"commonName\": \"Dojo Loach\",\n    \"scientificName\": \"Misgurnus anguillicaudatus\",\n    \"description\": \"An elongated, eel-like freshwater loach with prominent sensory barbels around its mouth, known for its friendly, inquisitive behavior and sensitivity to changes in atmospheric pressure.\",\n    \"careLevel\": \"Easy\",\n    \"temperament\": \"Peaceful\",\n    \"origin\": \"East Asia\",\n    \"diet\": \"Omnivore\",\n    \"tempRange\": \"15°C - 25°C (59°F - 77°F)\",\n    \"phRange\": \"6.5 - 7.5\",\n    \"minTankSize\": \"55 gallons\"\n  }\n]"
+  },
+  {
+    "imgIndex": 6,
+    "output": "```json\n[\n  {\n    \"commonName\": \"Tire Track Eel\",\n    \"scientificName\": \"Mastacembelus armatus\",\n    \"description\": \"An elongated, eel-like freshwater fish with a pointed rostrum (snout) and a distinctive reticulated dark brown to black net-like pattern over a tan or golden body. It enjoys burrowing in fine sand or gravel substrates.\",\n    \"careLevel\": \"Moderate\",\n    \"temperament\": \"Semi-aggressive\",\n    \"origin\": \"South and Southeast Asia\",\n    \"diet\": \"Carnivore\",\n    \"tempRange\": \"72°F - 82°F (22°C - 28°C)\",\n    \"phRange\": \"6.5 - 7.5\",\n    \"minTankSize\": \"125 gallons\"\n  }\n]\n```"
+  },
+  {
+    "imgIndex": 8,
+    "output": "```json\n[\n  {\n    \"commonName\": \"Peters' Elephantnose Fish\",\n    \"scientificName\": \"Gnathonemus petersii\",\n    \"description\": \"An African weakly electric freshwater fish known for its distinct trunk-like chin extension (Schnauzenorgan) used for electroreception, dark brown to black body, and vertical pale bands near the posterior fins.\",\n    \"careLevel\": \"Difficult\",\n    \"temperament\": \"Semi-aggressive\",\n    \"origin\": \"West and Central Africa (Niger and Congo River basins)\",\n    \"diet\": \"Carnivorous (live and frozen foods such as bloodworms, tubifex, and brine shrimp)\",\n    \"tempRange\": \"22–28°C (72–82°F)\",\n    \"phRange\": \"6.0–7.5\",\n    \"minTankSize\": \"50 gallons\"\n  }\n]\n```"
+  },
+  {
+    "imgIndex": 9,
+    "output": "[\n  {\n    \"commonName\": \"Peters' Elephantnose Fish\",\n    \"scientificName\": \"Gnathonemus petersii\",\n    \"description\": \"A unique freshwater fish native to West and Central Africa, known for its trunk-like chin extension (Schnauzenorgan) used to sense weak electric fields for navigation and foraging in dark or murky waters.\",\n    \"careLevel\": \"Moderate\",\n    \"temperament\": \"Semi-aggressive\",\n    \"origin\": \"West and Central Africa\",\n    \"diet\": \"Carnivore\",\n    \"tempRange\": \"73–82°F (23–28°C)\",\n    \"phRange\": \"6.0–7.5\",\n    \"minTankSize\": \"50 gallons\"\n  }\n]"
+  },
+  {
+    "imgIndex": 10,
+    "output": "```json\n[\n  {\n    \"commonName\": \"Three-Striped African Glass Catfish\",\n    \"scientificName\": \"Pareutropius buffei\",\n    \"description\": \"A graceful, peaceful schooling catfish featuring a translucent silvery body accented by distinct dark longitudinal stripes and prominent sensory barbels.\",\n    \"careLevel\": \"Moderate\",\n    \"temperament\": \"Peaceful\",\n    \"origin\": \"West Africa\",\n    \"diet\": \"Omnivore\",\n    \"tempRange\": \"23-27°C (73-81°F)\",\n    \"phRange\": \"6.0-7.5\",\n    \"minTankSize\": \"30 gallons\"\n  }\n]\n```"
+  },
+  {
+    "imgIndex": 11,
+    "output": "```json\n[\n  {\n    \"commonName\": \"Tire Track Eel\",\n    \"scientificName\": \"Mastacembelus armatus\",\n    \"description\": \"An elongated, eel-like freshwater fish characterized by a distinctive brown and tan reticulated, zig-zag pattern, a long fleshy snout, and a series of small sharp spines along its back.\",\n    \"careLevel\": \"Moderate\",\n    \"temperament\": \"Semi-aggressive\",\n    \"origin\": \"South and Southeast Asia\",\n    \"diet\": \"Carnivorous (live or frozen worms, shrimp, insects, small fish)\",\n    \"tempRange\": \"22–28 °C (72–82 °F)\",\n    \"phRange\": \"6.5–7.5\",\n    \"minTankSize\": \"125 gallons\"\n  }\n]\n```"
+  },
+  {
+    "imgIndex": 12,
+    "output": "```json\n[\n  {\n    \"commonName\": \"African Debauwi Catfish\",\n    \"scientificName\": \"Pareutropius buffei\",\n    \"description\": \"A active, peaceful schooling catfish native to West Africa, characterized by a translucent silvery body with distinctive dark horizontal stripes along its flanks and long, prominent barbels.\",\n    \"careLevel\": \"Easy to Moderate\",\n    \"temperament\": \"Peaceful\",\n    \"origin\": \"West Africa (Nigeria, Benin, Niger River Basin)\",\n    \"diet\": \"Omnivore\",\n    \"tempRange\": \"23–28 °C (73–82 °F)\",\n    \"phRange\": \"6.0–7.5\",\n    \"minTankSize\": \"30 gallons\"\n  }\n]\n```"
+  }
+]
