@@ -36,68 +36,13 @@ const INITIAL_LIKES_SEED: Record<string, number> = {
   "wa-dala-04": 89, // Congo Tetra
 };
 
-// Seed initial authentic comments from aquarists
-const INITIAL_COMMENTS_SEED: FishComment[] = [
-  {
-    id: "seed-c1",
-    fishId: "wa-store-03",
-    authorName: "Marcus Vance",
-    location: "United Kingdom",
-    content: "Received a healthy juvenile specimen from West Africa Fish Farm last month. Aggressive eater and active swimmer! Top-tier acclimation.",
-    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    avatarColor: "from-amber-500 to-yellow-600"
-  },
-  {
-    id: "seed-c2",
-    fishId: "wa-store-01",
-    authorName: "Dr. Elena Rostova",
-    location: "Germany",
-    content: "The Giant Mbu Puffer is pristine! Teeth and eyes in perfect condition. Packaging was incredibly warm and insulated upon airport arrival.",
-    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    avatarColor: "from-emerald-500 to-teal-600"
-  },
-  {
-    id: "seed-c3",
-    fishId: "wa-store-05",
-    authorName: "Kenji Takahashi",
-    location: "Japan",
-    content: "The vibrant blue hues on these Atya Gabonensis are phenomenal. Filter fans are healthy and active in my 120-gallon planted tank.",
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    avatarColor: "from-blue-500 to-cyan-600"
-  },
-  {
-    id: "seed-c4",
-    fishId: "wa-dala-04",
-    authorName: "Samuel Osei",
-    location: "Ghana",
-    content: "The Congo Tetras display intense iridescence under full spectrum lighting. A truly majestic schooling display!",
-    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    avatarColor: "from-purple-500 to-indigo-600"
-  },
-  {
-    id: "seed-c5",
-    fishId: "wa-dala-01",
-    authorName: "David Miller",
-    location: "USA",
-    content: "Beautiful coloration on the Blood Fish. Very active and peaceful with my other African riverine species.",
-    createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-    avatarColor: "from-rose-500 to-red-600"
-  },
-  {
-    id: "seed-c6",
-    fishId: "wa-store-08",
-    authorName: "Jean-Pierre",
-    location: "France",
-    content: "Serpentine movements are mesmerizing to watch. Easily settled into the sand substrate.",
-    createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
-    avatarColor: "from-yellow-500 to-amber-600"
-  }
-];
+// Seed initial authentic comments from aquarists - clean start with no seeded comments
+const INITIAL_COMMENTS_SEED: FishComment[] = [];
 
 // Local state caches
 const LOCAL_STORAGE_LIKED_KEY = "waff_user_liked_fish_ids";
 const LOCAL_STORAGE_LIKES_MAP_KEY = "waff_likes_map";
-const LOCAL_STORAGE_COMMENTS_KEY = "waff_community_comments";
+const LOCAL_STORAGE_COMMENTS_KEY = "waff_community_comments_clean";
 
 // Color palettes for user avatars
 export const AVATAR_COLORS = [
@@ -112,11 +57,14 @@ export const AVATAR_COLORS = [
 
 // In-memory synced stores
 let likesCache: Record<string, number> = { ...INITIAL_LIKES_SEED };
-let commentsCache: FishComment[] = [...INITIAL_COMMENTS_SEED];
+let commentsCache: FishComment[] = [];
 let subscribers: Array<() => void> = [];
 
 // Initialize local storage cache
 try {
+  // Clean up legacy seeded comments in local storage if present
+  localStorage.removeItem("waff_community_comments");
+
   const savedLikes = localStorage.getItem(LOCAL_STORAGE_LIKES_MAP_KEY);
   if (savedLikes) {
     likesCache = { ...INITIAL_LIKES_SEED, ...JSON.parse(savedLikes) };
@@ -124,14 +72,10 @@ try {
   const savedComments = localStorage.getItem(LOCAL_STORAGE_COMMENTS_KEY);
   if (savedComments) {
     const parsed: FishComment[] = JSON.parse(savedComments);
-    // Combine and deduplicate
-    const combined = [...INITIAL_COMMENTS_SEED];
-    parsed.forEach(c => {
-      if (!combined.some(item => item.id === c.id)) {
-        combined.unshift(c);
-      }
-    });
-    commentsCache = combined;
+    // Filter out any legacy seed-c comments
+    commentsCache = parsed.filter(c => !c.id.startsWith("seed-c"));
+  } else {
+    commentsCache = [];
   }
 } catch (e) {
   console.warn("Storage init error", e);
@@ -209,7 +153,7 @@ export function initFirestoreCommunityListeners() {
       let changed = false;
       snapshot.forEach(docSnap => {
         const data = docSnap.data();
-        if (data && data.fishId && data.authorName && data.content) {
+        if (data && data.fishId && data.authorName && data.content && !docSnap.id.startsWith("seed-c")) {
           const exists = commentsCache.some(c => c.id === docSnap.id || (c.content === data.content && c.fishId === data.fishId));
           if (!exists) {
             commentsCache.unshift({
