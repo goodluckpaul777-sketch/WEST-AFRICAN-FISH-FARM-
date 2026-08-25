@@ -1,41 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { 
-  Fish, 
   ShieldCheck, 
-  Truck, 
-  Droplet, 
   ArrowRight, 
   Star, 
   Box, 
   Wind, 
   FileCheck,
   ZoomIn,
-  ZoomOut,
-  RotateCcw,
-  X,
-  ChevronLeft,
-  ChevronRight,
   CheckCircle2,
-  MessageSquare,
-  Heart
 } from "lucide-react";
 import { FishSpecies, TabType } from "../types";
-import FishLikeButton from "./FishLikeButton";
-import FishCommentsModal from "./FishCommentsModal";
-import { getAllFishCommentsCount } from "../lib/communityService";
 
 interface HomeViewProps {
-  featuredSpecies: FishSpecies[];
+  featuredSpecies?: FishSpecies[];
   setTab: (tab: TabType) => void;
   onZoomLogo: () => void;
-  onSelectSpecies: (species: FishSpecies) => void;
+  onSelectSpecies?: (species: FishSpecies) => void;
 }
 
-export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelectSpecies }: HomeViewProps) {
-  const [zoomedSpecies, setZoomedSpecies] = useState<FishSpecies | null>(null);
-  const [zoomScale, setZoomScale] = useState(1);
-  const [commentingFish, setCommentingFish] = useState<FishSpecies | null>(null);
-
+export default function HomeView({ setTab, onZoomLogo }: HomeViewProps) {
   return (
     <div className="space-y-20 pb-16">
       {/* Premium Hero Section */}
@@ -264,7 +247,7 @@ export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelect
             WEST AFRICAN <span className="text-yellow-500">FISH FARM</span> OPERATIONS
           </h2>
           <p className="text-zinc-300 text-sm leading-relaxed font-sans font-light">
-            Welcome to <strong>West Africa Fish Farm (WAGFF)</strong>. Based directly in Lagos, Nigeria, we operate a fully licensed, professional quarantine and global export terminal. This secures unparalleled direct-access to legendary, sustainable wild-harvested specimens like the <strong>African Tigerfish</strong>, <strong>Giant Mbu Pufferfish</strong>, <strong>Aba Aba Knifefish</strong>, and pristine <strong>Atya Gabonensis Shrimps</strong>.
+            Welcome to <strong>West Africa Fish Farm (WAGFF)</strong>. Based directly in Lagos, Nigeria, we operate a fully licensed, professional quarantine and global export terminal. This secures unparalleled direct access to legendary, sustainable wild-harvested specimens.
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2 font-mono text-[11px] text-zinc-400">
             <span className="flex items-center gap-2">
@@ -277,111 +260,6 @@ export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelect
               <span className="text-yellow-500">✓</span> Professional Acclimation
             </span>
           </div>
-        </div>
-      </div>
-
-      {/* Featured Livestock Slider/Teaser */}
-      <div className="space-y-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-          <div>
-            <div className="text-yellow-500 text-xs font-mono tracking-widest uppercase mb-1">Exclusives</div>
-            <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight flex items-center gap-2 uppercase font-display">
-              FEATURED SHOWPIECES
-              <span className="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.6)] animate-pulse"></span>
-            </h2>
-          </div>
-          <button
-            onClick={() => setTab("gallery")}
-            className="text-yellow-500 hover:text-yellow-400 text-xs font-mono tracking-wider uppercase flex items-center gap-1.5 transition-all"
-          >
-            See all exotics
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {featuredSpecies.slice(0, 4).map((species) => {
-            const commentsCount = getAllFishCommentsCount(species.id);
-
-            return (
-              <div
-                key={species.id}
-                onClick={() => onSelectSpecies(species)}
-                className="group cursor-pointer rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-yellow-500/30 transition-all duration-300 overflow-hidden flex flex-col"
-              >
-                <div className="relative h-48 overflow-hidden bg-black">
-                  <img
-                    src={species.image}
-                    alt={species.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
-                    referrerPolicy="no-referrer"
-                  />
-                  
-                  <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setZoomedSpecies(species);
-                        setZoomScale(1);
-                      }}
-                      className="p-1.5 rounded-full bg-black/80 hover:bg-yellow-500 text-zinc-300 hover:text-black border border-white/10 hover:border-transparent transition-all cursor-pointer shadow-lg"
-                      title="Zoom Image"
-                    >
-                      <ZoomIn className="w-3.5 h-3.5" />
-                    </button>
-                    
-                    <FishLikeButton 
-                      fishId={species.id} 
-                      size="sm" 
-                      variant="card-corner" 
-                    />
-                  </div>
-
-                  <div className="absolute top-3 right-3 flex flex-col gap-1 items-end z-10">
-                    <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold tracking-wide bg-yellow-500 text-black shadow-lg">
-                      FOR SALE
-                    </span>
-                  </div>
-                  <div className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-sm border border-zinc-800 px-2 py-0.5 rounded text-[10px] font-mono uppercase text-zinc-300">
-                    {species.waterType}
-                  </div>
-                </div>
-                <div className="p-4 space-y-2 flex-grow flex flex-col justify-between bg-zinc-950/10">
-                  <div>
-                    <h3 className="text-white font-bold text-sm group-hover:text-yellow-500 transition-colors line-clamp-1">
-                      {species.name}
-                    </h3>
-                    <p className="text-zinc-500 text-xs italic line-clamp-1">
-                      {species.scientificName}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between py-1.5 px-2.5 bg-zinc-900/60 rounded-lg border border-white/5 text-[11px] font-mono">
-                    <FishLikeButton fishId={species.id} size="sm" variant="ghost" />
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCommentingFish(species);
-                      }}
-                      className="flex items-center gap-1 text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer"
-                      title="Read comments"
-                    >
-                      <MessageSquare className="w-3 h-3 text-yellow-500" />
-                      <span>{commentsCount}</span>
-                    </button>
-                  </div>
-
-                  <div className="flex justify-between items-center pt-2 border-t border-zinc-900 text-[11px] font-mono text-zinc-400">
-                    <span>Care: {species.careLevel}</span>
-                    <span className="flex items-center gap-1 text-yellow-500 font-bold">
-                      View Specs
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
         </div>
       </div>
 
@@ -405,167 +283,6 @@ export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelect
           Inquire Custom Specimen
         </button>
       </div>
-
-      {/* Immersive Image Zoom Lightbox Modal */}
-      {zoomedSpecies && (
-        <div 
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-black/95 backdrop-blur-lg select-none"
-          onClick={() => setZoomedSpecies(null)}
-        >
-          {/* Top Panel: Title and general actions */}
-          <div 
-            className="absolute top-4 inset-x-4 flex justify-between items-center z-10 bg-black/40 backdrop-blur-md p-3 rounded-xl border border-white/5"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="text-left font-sans">
-              <p className="text-yellow-500 text-[10px] font-mono uppercase tracking-widest font-semibold">Exotic Specimen Zoom</p>
-              <h4 className="text-sm font-bold text-white tracking-tight">{zoomedSpecies.name}</h4>
-              <p className="text-xs text-zinc-400 font-mono italic">{zoomedSpecies.scientificName}</p>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <FishLikeButton fishId={zoomedSpecies.id} size="sm" variant="pill" />
-
-              <button
-                onClick={() => {
-                  setCommentingFish(zoomedSpecies);
-                }}
-                className="p-2 bg-zinc-900 hover:bg-zinc-800 text-yellow-400 rounded-lg border border-white/5 transition-all text-xs flex items-center gap-1.5 cursor-pointer font-mono"
-                title="Open Comments"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span className="hidden sm:inline">Comments ({getAllFishCommentsCount(zoomedSpecies.id)})</span>
-              </button>
-
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setZoomScale(prev => Math.min(prev + 0.25, 3));
-                }}
-                className="p-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white rounded-lg border border-white/5 transition-all text-xs flex items-center gap-1 cursor-pointer font-mono"
-                title="Zoom In"
-              >
-                <ZoomIn className="w-4 h-4" />
-                <span className="hidden sm:inline">In</span>
-              </button>
-              
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setZoomScale(prev => Math.max(prev - 0.25, 0.5));
-                }}
-                className="p-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white rounded-lg border border-white/5 transition-all text-xs flex items-center gap-1 cursor-pointer font-mono"
-                title="Zoom Out"
-              >
-                <ZoomOut className="w-4 h-4" />
-                <span className="hidden sm:inline">Out</span>
-              </button>
-
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setZoomScale(1);
-                }}
-                className="p-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white rounded-lg border border-white/5 transition-all text-xs flex items-center gap-1 cursor-pointer font-mono"
-                title="Reset Zoom"
-              >
-                <RotateCcw className="w-4 h-4" />
-                <span className="hidden sm:inline">Reset</span>
-              </button>
-
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setZoomedSpecies(null);
-                }}
-                className="p-2 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white rounded-lg border border-red-500/20 transition-all cursor-pointer"
-                title="Close Lightbox"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Left Navigation Arrow */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              const sliceFishes = featuredSpecies.slice(0, 4);
-              const currentIndex = sliceFishes.findIndex(f => f.id === zoomedSpecies.id);
-              if (currentIndex > 0) {
-                setZoomedSpecies(sliceFishes[currentIndex - 1]);
-                setZoomScale(1);
-              } else {
-                setZoomedSpecies(sliceFishes[sliceFishes.length - 1]);
-                setZoomScale(1);
-              }
-            }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-zinc-900/80 hover:bg-zinc-800 text-white hover:text-yellow-400 transition-colors border border-white/5 cursor-pointer shadow-xl"
-            title="Previous Specimen"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
-          {/* Right Navigation Arrow */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              const sliceFishes = featuredSpecies.slice(0, 4);
-              const currentIndex = sliceFishes.findIndex(f => f.id === zoomedSpecies.id);
-              if (currentIndex < sliceFishes.length - 1) {
-                setZoomedSpecies(sliceFishes[currentIndex + 1]);
-                setZoomScale(1);
-              } else {
-                setZoomedSpecies(sliceFishes[0]);
-                setZoomScale(1);
-              }
-            }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-zinc-900/80 hover:bg-zinc-800 text-white hover:text-yellow-400 transition-colors border border-white/5 cursor-pointer shadow-xl"
-            title="Next Specimen"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          {/* Image Canvas Container */}
-          <div 
-            className="w-full max-w-4xl h-[65vh] md:h-[70vh] flex items-center justify-center overflow-hidden relative cursor-grab active:cursor-grabbing"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img 
-              src={zoomedSpecies.image} 
-              alt={zoomedSpecies.name} 
-              className="max-w-full max-h-full object-contain rounded-xl shadow-2xl transition-transform duration-300"
-              style={{ transform: `scale(${zoomScale})` }}
-              referrerPolicy="no-referrer"
-            />
-          </div>
-
-          {/* Bottom Specimen Meta Bar */}
-          <div 
-            className="absolute bottom-4 inset-x-4 max-w-2xl mx-auto bg-zinc-950/90 border border-white/10 rounded-2xl p-4 text-center space-y-2 z-10 shadow-2xl font-sans"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-1.5 text-xs font-mono text-zinc-400">
-              <span><strong className="text-zinc-500">ORIGIN:</strong> {zoomedSpecies.origin}</span>
-              <span><strong className="text-zinc-500">WATER:</strong> {zoomedSpecies.waterType}</span>
-              <span><strong className="text-zinc-500">CARE:</strong> {zoomedSpecies.careLevel}</span>
-              <span><strong className="text-zinc-500">DIET:</strong> {zoomedSpecies.diet}</span>
-            </div>
-            <p className="text-zinc-400 text-[11px] leading-relaxed line-clamp-2 md:line-clamp-none font-sans">
-              {zoomedSpecies.description}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Community Comments Modal */}
-      {commentingFish && (
-        <FishCommentsModal
-          fish={commentingFish}
-          isOpen={!!commentingFish}
-          onClose={() => setCommentingFish(null)}
-        />
-      )}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Fish, Mail, Menu, X, Waves, BookOpen, Compass, ShieldCheck, ZoomIn, ClipboardList } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { TabType, FishSpecies } from "./types";
 import { LIVESTOCK_DATA } from "./data/livestock";
 import HomeView from "./components/HomeView";
@@ -127,46 +128,68 @@ export default function App() {
       </header>
 
       {/* Mobile Nav Overlay Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-y-0 right-0 w-64 bg-black/95 border-l border-zinc-900 z-40 pt-24 px-6 shadow-2xl flex flex-col justify-between pb-8">
-          <div className="space-y-3">
-            {[
-              { id: "home", label: "Home" },
-              { id: "livestock", label: "Stock List" },
-              { id: "gallery", label: "Live Stock" },
-              { id: "about", label: "About Us" },
-              { id: "terms", label: "Terms" },
-              { id: "contact", label: "Contact" },
-            ].map((tab) => (
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop Blur/Fade */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-35"
+              aria-hidden="true"
+            />
+
+            {/* Drawer */}
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+              className="lg:hidden fixed inset-y-0 right-0 w-64 bg-black/95 border-l border-zinc-900 z-40 pt-24 px-6 shadow-2xl flex flex-col justify-between pb-8"
+            >
+              <div className="space-y-3">
+                {[
+                  { id: "home", label: "Home" },
+                  { id: "livestock", label: "Stock List" },
+                  { id: "gallery", label: "Live Stock" },
+                  { id: "about", label: "About Us" },
+                  { id: "terms", label: "Terms" },
+                  { id: "contact", label: "Contact" },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      setActiveTab(tab.id as TabType);
+                      setSelectedSpecies(null);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 rounded-lg text-xs font-mono uppercase tracking-wider transition-all ${
+                      activeTab === tab.id
+                        ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                        : "text-zinc-400 hover:text-white hover:bg-zinc-900/50"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
               <button
-                key={tab.id}
                 onClick={() => {
-                  setActiveTab(tab.id as TabType);
-                  setSelectedSpecies(null);
+                  setActiveTab("contact");
                   setMobileMenuOpen(false);
                 }}
-                className={`w-full text-left px-4 py-3 rounded-lg text-xs font-mono uppercase tracking-wider transition-all ${
-                  activeTab === tab.id
-                    ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
-                    : "text-zinc-400 hover:text-white hover:bg-zinc-900/50"
-                }`}
+                className="w-full py-3.5 text-xs font-mono font-bold text-black bg-yellow-500 hover:bg-yellow-400 rounded-full text-center uppercase tracking-wider cursor-pointer"
               >
-                {tab.label}
+                INQUIRE NOW
               </button>
-            ))}
-          </div>
-
-          <button
-            onClick={() => {
-              setActiveTab("contact");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full py-3.5 text-xs font-mono font-bold text-black bg-yellow-500 hover:bg-yellow-400 rounded-full text-center uppercase tracking-wider"
-          >
-            INQUIRE NOW
-          </button>
-        </div>
-      )}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Main Container Stage */}
       <main className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-10 py-10 flex-grow w-full">
