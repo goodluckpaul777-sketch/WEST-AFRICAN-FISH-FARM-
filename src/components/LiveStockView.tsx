@@ -1,10 +1,112 @@
 import React, { useState, useMemo } from "react";
-import { MessageSquare, Mail, Copy, Check, Search, Fish, Sparkles, ArrowDown, Heart } from "lucide-react";
+import { 
+  MessageSquare, 
+  Mail, 
+  Copy, 
+  Check, 
+  Search, 
+  Fish, 
+  Sparkles, 
+  ArrowDown, 
+  Heart,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  X,
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react";
 import { NEW_LIVESTOCK_DATA, StockFish } from "../data/newLivestock";
 import { LIVESTOCK_DATA } from "../data/livestock";
 import FishLikeButton from "./FishLikeButton";
 import FishCommentsModal from "./FishCommentsModal";
 import { getAllFishCommentsCount } from "../lib/communityService";
+
+// Helper to find associated photo for any stock item
+export const getSpeciesImage = (commonName: string, scientificName: string): string | undefined => {
+  const cName = commonName.toLowerCase().trim();
+  const sName = scientificName.toLowerCase().trim();
+
+  // 1. Direct match in LIVESTOCK_DATA
+  for (const item of LIVESTOCK_DATA) {
+    const itemC = item.name.toLowerCase().trim();
+    const itemS = item.scientificName.toLowerCase().trim();
+
+    if (itemC === cName || itemS === sName) return item.image;
+    if (cName.includes(itemC) || itemC.includes(cName)) return item.image;
+    if (sName.includes(itemS) || itemS.includes(sName)) return item.image;
+  }
+
+  // 2. Specific taxonomy & alias matches
+  if (cName.includes("aba") || sName.includes("gymnarchus") || sName.includes("gynachus")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783473933773_IMG-20260706-WA0025.jpg";
+  }
+  if (cName.includes("tiger") || sName.includes("hydrocynus")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1782518253432_1778424284824.png";
+  }
+  if (cName.includes("pike") || sName.includes("hepsetus")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787639475375_IMG_20260823_132911.jpg";
+  }
+  if (cName.includes("arowana") || sName.includes("heterotis")) {
+    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168652642-p5yhgxv0ii.png";
+  }
+  if (cName.includes("atya") || (cName.includes("shrimp") && !cName.includes("big")) || sName.includes("atya")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1784193162298_IMG_20260716_100812.jpg";
+  }
+  if (cName.includes("blood") || sName.includes("phractol") || sName.includes("phractolemus")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470344_1000502573.jpg";
+  }
+  if (cName.includes("butter fly") || cName.includes("butterfly") || sName.includes("pantodon")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779838226008_1779838206913.png";
+  }
+  if (cName.includes("congo tetra") || sName.includes("phenacogram")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787639475377_IMG_20260823_124815.jpg";
+  }
+  if (cName.includes("costae") || sName.includes("moenkhausia")) {
+    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169027197-xc4yqfpiuc.png";
+  }
+  if (cName.includes("dolphin") || sName.includes("mormyrus") || sName.includes("mommyyrus")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470350_fish_proper.png";
+  }
+  if (cName.includes("electric") || sName.includes("malapterurus")) {
+    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169069848-3stqpnq3xem.png";
+  }
+  if (cName.includes("elephant") || sName.includes("gnathonemus")) {
+    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168752178-hziwkg38h8a.png";
+  }
+  if (cName.includes("glass cat") || cName.includes("debauwie") || sName.includes("paraila") || sName.includes("eutropielus") || sName.includes("pareutropius")) {
+    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168862944-dnintsh1mt5.png";
+  }
+  if (cName.includes("snake") || sName.includes("channa")) {
+    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168629604-cw6k7ckebw.png";
+  }
+  if (cName.includes("spiny eel") || sName.includes("afromastacembelus")) {
+    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169076883-hh36491ia6j.png";
+  }
+  if (cName.includes("reed") || cName.includes("rope") || sName.includes("calabaricus") || sName.includes("erpetoichthys")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779843879999_1779841066099.png";
+  }
+  if (cName.includes("eel cat") || sName.includes("gymnallabes")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779838878836_1779838608486.png";
+  }
+  if (cName.includes("marble knife") || sName.includes("papyrocramus") || sName.includes("chitala")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779836297198_IMG_20260526_160358.jpg";
+  }
+  if (cName.includes("crab") || sName.includes("cardisoma")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783470991659_1783470958603.png";
+  }
+  if (cName.includes("puffer") || sName.includes("tetraodon")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783472096434_1778420191965.png";
+  }
+  if (cName.includes("tilapia") || sName.includes("oreochromis")) {
+    return "https://storage.googleapis.com/dala-prod-public-storage/generated-images/dccce169-2461-4ca1-a9a2-4155a87190c5/fresh-tilapia-2d041fb6-1783674460297.webp";
+  }
+  if (cName.includes("red eye") || sName.includes("arnoldichthys")) {
+    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169061095-drw9mthgst.png";
+  }
+
+  return undefined;
+};
 
 export default function LiveStockView() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +118,13 @@ export default function LiveStockView() {
     image?: string;
   } | null>(null);
 
+  // High-res photo zoom state
+  const [zoomedFishModal, setZoomedFishModal] = useState<{
+    name: string;
+    scientificName: string;
+    image: string;
+  } | null>(null);
+  const [zoomScale, setZoomScale] = useState(1);
   
   // Client Info
   const [clientName, setClientName] = useState("");
@@ -205,17 +314,21 @@ ${notes || "None"}
                   {filteredFishes.map((fish, idx) => {
                     const isSelected = !!selectedItems[fish.sn];
                     
-                    // Match with gallery fish if exists for image, or use normalized id
+                    // Match with gallery fish or custom image lookup
                     const matchedGalleryFish = LIVESTOCK_DATA.find(
                       (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() ||
                              f.scientificName.toLowerCase() === fish.scientificName.toLowerCase()
                     );
+                    const fishImage = matchedGalleryFish?.image || getSpeciesImage(fish.commonName, fish.scientificName);
                     const communityId = matchedGalleryFish ? matchedGalleryFish.id : `stock_${fish.sn.toLowerCase()}`;
                     const fishCommentsCount = getAllFishCommentsCount(communityId);
 
                     return (
-                      <tr key={`${fish.sn}-${fish.commonName}-${idx}`} className={`hover:bg-white/5 transition-colors ${isSelected ? 'bg-yellow-500/5' : ''}`}>
-                        <td className="p-4">
+                      <tr 
+                        key={`${fish.sn}-${fish.commonName}-${idx}`} 
+                        className={`hover:bg-white/5 transition-colors group ${isSelected ? 'bg-yellow-500/5' : ''}`}
+                      >
+                        <td className="p-4 align-middle">
                           <input 
                             type="checkbox" 
                             checked={isSelected}
@@ -223,10 +336,65 @@ ${notes || "None"}
                             className="w-4 h-4 rounded border-zinc-700 bg-zinc-900 text-yellow-500 focus:ring-yellow-500 cursor-pointer"
                           />
                         </td>
-                        <td className="p-4 text-xs font-mono text-zinc-400">{fish.sn}</td>
-                        <td className="p-4 text-sm font-medium text-white">{fish.commonName}</td>
-                        <td className="p-4 text-xs font-mono text-zinc-400 italic">{fish.scientificName}</td>
-                        <td className="p-4">
+                        <td className="p-4 text-xs font-mono text-zinc-400 align-middle">#{fish.sn}</td>
+                        <td className="p-4 align-middle">
+                          <div className="flex items-center gap-3.5">
+                            {/* Fish Photo Thumbnail */}
+                            {fishImage ? (
+                              <div
+                                onClick={() => {
+                                  setZoomedFishModal({
+                                    name: fish.commonName,
+                                    scientificName: fish.scientificName,
+                                    image: fishImage
+                                  });
+                                  setZoomScale(1);
+                                }}
+                                className="relative w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden bg-black border border-white/10 group-hover:border-yellow-500/50 flex-shrink-0 cursor-zoom-in group/thumb shadow-md"
+                                title={`Click to zoom photo of ${fish.commonName}`}
+                              >
+                                <img
+                                  src={fishImage}
+                                  alt={fish.commonName}
+                                  className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform duration-300"
+                                  referrerPolicy="no-referrer"
+                                />
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity">
+                                  <ZoomIn className="w-4 h-4 text-yellow-400 drop-shadow" />
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-zinc-800/50 border border-white/5 flex items-center justify-center flex-shrink-0 text-zinc-500">
+                                <Fish className="w-5 h-5 opacity-40 text-yellow-500/60" />
+                              </div>
+                            )}
+
+                            <div>
+                              <div className="text-sm font-semibold text-white group-hover:text-yellow-400 transition-colors">
+                                {fish.commonName}
+                              </div>
+                              {fishImage && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setZoomedFishModal({
+                                      name: fish.commonName,
+                                      scientificName: fish.scientificName,
+                                      image: fishImage
+                                    });
+                                    setZoomScale(1);
+                                  }}
+                                  className="inline-flex items-center gap-1 text-[10px] font-mono text-yellow-500 hover:text-yellow-400 transition-colors cursor-pointer mt-0.5"
+                                >
+                                  <ZoomIn className="w-2.5 h-2.5" />
+                                  <span>View Photo</span>
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-4 text-xs font-mono text-zinc-400 italic align-middle">{fish.scientificName}</td>
+                        <td className="p-4 align-middle">
                           <div className="flex items-center gap-1.5">
                             <FishLikeButton 
                               fishId={communityId} 
@@ -239,7 +407,7 @@ ${notes || "None"}
                                   id: communityId,
                                   name: fish.commonName,
                                   scientificName: fish.scientificName,
-                                  image: matchedGalleryFish?.image
+                                  image: fishImage
                                 });
                               }}
                               className="p-1.5 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-400 hover:text-yellow-400 border border-white/5 transition-colors flex items-center gap-1 text-[10px] font-mono cursor-pointer"
@@ -250,7 +418,7 @@ ${notes || "None"}
                             </button>
                           </div>
                         </td>
-                        <td className="p-4">
+                        <td className="p-4 align-middle">
                           {isSelected && (
                             <input
                               type="number"
@@ -418,6 +586,79 @@ ${notes || "None"}
           isOpen={!!commentingFish}
           onClose={() => setCommentingFish(null)}
         />
+      )}
+
+      {/* Stock Image Zoom Modal */}
+      {zoomedFishModal && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4"
+          onClick={() => setZoomedFishModal(null)}
+        >
+          <div 
+            className="relative max-w-4xl w-full bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-950/80">
+              <div>
+                <h3 className="text-lg md:text-xl font-black text-white uppercase font-display">
+                  {zoomedFishModal.name}
+                </h3>
+                <p className="text-xs font-mono text-yellow-500 italic">
+                  {zoomedFishModal.scientificName}
+                </p>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setZoomScale(prev => Math.min(prev + 0.25, 3))}
+                  className="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors cursor-pointer"
+                  title="Zoom In"
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setZoomScale(prev => Math.max(prev - 0.25, 0.75))}
+                  className="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors cursor-pointer"
+                  title="Zoom Out"
+                >
+                  <ZoomOut className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setZoomScale(1)}
+                  className="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors cursor-pointer"
+                  title="Reset Zoom"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setZoomedFishModal(null)}
+                  className="p-2 rounded-xl bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/30 transition-colors ml-2 cursor-pointer"
+                  title="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Image Stage */}
+            <div className="relative w-full h-[380px] md:h-[500px] overflow-hidden bg-black flex items-center justify-center p-4 select-none">
+              <img
+                src={zoomedFishModal.image}
+                alt={zoomedFishModal.name}
+                style={{ transform: `scale(${zoomScale})` }}
+                className="max-w-full max-h-full object-contain transition-transform duration-200"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-3 bg-zinc-950 border-t border-zinc-800 flex items-center justify-between text-xs font-mono text-zinc-400">
+              <span>Zoom: {Math.round(zoomScale * 100)}%</span>
+              <span className="text-yellow-500/80">West Africa Fish Farm • Specimen Archive</span>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

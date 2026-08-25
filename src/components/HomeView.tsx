@@ -40,11 +40,11 @@ export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelect
     <div className="space-y-20 pb-16">
       {/* Premium Hero Section */}
       <div className="relative rounded-3xl overflow-hidden border border-zinc-800 shadow-2xl bg-black">
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/35 z-10" />
         <img
-          src="/src/assets/images/aquarium_hero_1784280304257.jpg"
-          alt="Premium Aquascape Gallery"
-          className="w-full h-[550px] md:h-[650px] object-cover opacity-60 filter brightness-75 scale-105"
+          src="/src/assets/images/nigerian_fish_hero_1787653987309.jpg"
+          alt="Authentic Nigerian Freshwater Fish Biotope"
+          className="w-full h-[550px] md:h-[650px] object-cover opacity-70 filter brightness-90 scale-105"
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-6 md:px-16 max-w-4xl mx-auto space-y-5">
