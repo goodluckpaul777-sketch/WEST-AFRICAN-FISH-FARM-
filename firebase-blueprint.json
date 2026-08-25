@@ -1,0 +1,38 @@
+{
+  "entities": {
+    "FishInteraction": {
+      "title": "FishInteraction",
+      "description": "Aggregated likes and interaction metrics for each fish species",
+      "type": "object",
+      "properties": {
+        "fishId": { "type": "string", "maxLength": 128 },
+        "likesCount": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fishId", "likesCount"]
+    },
+    "FishComment": {
+      "title": "FishComment",
+      "description": "Public comments left by visitors for each fish species",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "fishId": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "content": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fishId", "authorName", "content", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/fish_interactions/{fishId}": {
+      "schema": "#/entities/FishInteraction",
+      "description": "Public like counts for fish species"
+    },
+    "/fish_comments/{commentId}": {
+      "schema": "#/entities/FishComment",
+      "description": "Public community comments for fish species"
+    }
+  }
+}

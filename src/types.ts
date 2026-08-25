@@ -77,4 +77,20 @@ export interface BlogPost {
   image: string;
 }
 
+export interface FishComment {
+  id: string;
+  fishId: string;
+  authorName: string;
+  content: string;
+  createdAt: string; // ISO date string
+  avatarColor?: string;
+  location?: string;
+}
+
+export interface FishCommunityStats {
+  likesCount: number;
+  commentsCount: number;
+}
+
 export type TabType = "home" | "livestock" | "about" | "contact" | "terms" | "gallery";
+

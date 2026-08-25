@@ -1,10 +1,21 @@
 import React, { useState, useMemo } from "react";
-import { MessageSquare, Mail, Copy, Check, Search, Fish, Sparkles, ArrowDown } from "lucide-react";
+import { MessageSquare, Mail, Copy, Check, Search, Fish, Sparkles, ArrowDown, Heart } from "lucide-react";
 import { NEW_LIVESTOCK_DATA, StockFish } from "../data/newLivestock";
+import { LIVESTOCK_DATA } from "../data/livestock";
+import FishLikeButton from "./FishLikeButton";
+import FishCommentsModal from "./FishCommentsModal";
+import { getAllFishCommentsCount } from "../lib/communityService";
 
 export default function LiveStockView() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItems, setSelectedItems] = useState<Record<string, number>>({});
+  const [commentingFish, setCommentingFish] = useState<{
+    id: string;
+    name: string;
+    scientificName: string;
+    image?: string;
+  } | null>(null);
+
   
   // Client Info
   const [clientName, setClientName] = useState("");
@@ -186,12 +197,22 @@ ${notes || "None"}
                     <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">S/N</th>
                     <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Common Name</th>
                     <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Scientific Name</th>
+                    <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Community</th>
                     <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Qty</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {filteredFishes.map((fish, idx) => {
                     const isSelected = !!selectedItems[fish.sn];
+                    
+                    // Match with gallery fish if exists for image, or use normalized id
+                    const matchedGalleryFish = LIVESTOCK_DATA.find(
+                      (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() ||
+                             f.scientificName.toLowerCase() === fish.scientificName.toLowerCase()
+                    );
+                    const communityId = matchedGalleryFish ? matchedGalleryFish.id : `stock_${fish.sn.toLowerCase()}`;
+                    const fishCommentsCount = getAllFishCommentsCount(communityId);
+
                     return (
                       <tr key={`${fish.sn}-${fish.commonName}-${idx}`} className={`hover:bg-white/5 transition-colors ${isSelected ? 'bg-yellow-500/5' : ''}`}>
                         <td className="p-4">
@@ -205,6 +226,30 @@ ${notes || "None"}
                         <td className="p-4 text-xs font-mono text-zinc-400">{fish.sn}</td>
                         <td className="p-4 text-sm font-medium text-white">{fish.commonName}</td>
                         <td className="p-4 text-xs font-mono text-zinc-400 italic">{fish.scientificName}</td>
+                        <td className="p-4">
+                          <div className="flex items-center gap-1.5">
+                            <FishLikeButton 
+                              fishId={communityId} 
+                              size="sm" 
+                              variant="ghost" 
+                            />
+                            <button
+                              onClick={() => {
+                                setCommentingFish({
+                                  id: communityId,
+                                  name: fish.commonName,
+                                  scientificName: fish.scientificName,
+                                  image: matchedGalleryFish?.image
+                                });
+                              }}
+                              className="p-1.5 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-400 hover:text-yellow-400 border border-white/5 transition-colors flex items-center gap-1 text-[10px] font-mono cursor-pointer"
+                              title="View & Add Public Comments"
+                            >
+                              <MessageSquare className="w-3 h-3 text-yellow-500" />
+                              <span>{fishCommentsCount}</span>
+                            </button>
+                          </div>
+                        </td>
                         <td className="p-4">
                           {isSelected && (
                             <input
@@ -221,7 +266,7 @@ ${notes || "None"}
                   })}
                   {filteredFishes.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="p-8 text-center text-zinc-500 font-mono text-sm">
+                      <td colSpan={6} className="p-8 text-center text-zinc-500 font-mono text-sm">
                         <Fish className="w-8 h-8 mx-auto mb-2 opacity-20" />
                         No species found matching your search.
                       </td>
@@ -365,6 +410,15 @@ ${notes || "None"}
           Send Message
         </button>
       </div>
+
+      {/* Community Comments Modal */}
+      {commentingFish && (
+        <FishCommentsModal
+          fish={commentingFish}
+          isOpen={!!commentingFish}
+          onClose={() => setCommentingFish(null)}
+        />
+      )}
     </div>
   );
 }

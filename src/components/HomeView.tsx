@@ -15,9 +15,14 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  CheckCircle2
+  CheckCircle2,
+  MessageSquare,
+  Heart
 } from "lucide-react";
 import { FishSpecies, TabType } from "../types";
+import FishLikeButton from "./FishLikeButton";
+import FishCommentsModal from "./FishCommentsModal";
+import { getAllFishCommentsCount } from "../lib/communityService";
 
 interface HomeViewProps {
   featuredSpecies: FishSpecies[];
@@ -29,6 +34,8 @@ interface HomeViewProps {
 export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelectSpecies }: HomeViewProps) {
   const [zoomedSpecies, setZoomedSpecies] = useState<FishSpecies | null>(null);
   const [zoomScale, setZoomScale] = useState(1);
+  const [commentingFish, setCommentingFish] = useState<FishSpecies | null>(null);
+
   return (
     <div className="space-y-20 pb-16">
       {/* Premium Hero Section */}
@@ -293,62 +300,88 @@ export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelect
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {featuredSpecies.slice(0, 4).map((species) => (
-            <div
-              key={species.id}
-              onClick={() => onSelectSpecies(species)}
-              className="group cursor-pointer rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-yellow-500/30 transition-all duration-300 overflow-hidden flex flex-col"
-            >
-              <div className="relative h-48 overflow-hidden bg-black">
-                <img
-                  src={species.image}
-                  alt={species.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
-                  referrerPolicy="no-referrer"
-                />
-                
-                <div className="absolute top-3 left-3 z-10">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setZoomedSpecies(species);
-                      setZoomScale(1);
-                    }}
-                    className="p-1.5 rounded-full bg-black/80 hover:bg-yellow-500 text-zinc-300 hover:text-black border border-white/10 hover:border-transparent transition-all cursor-pointer shadow-lg"
-                    title="Zoom Image"
-                  >
-                    <ZoomIn className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+          {featuredSpecies.slice(0, 4).map((species) => {
+            const commentsCount = getAllFishCommentsCount(species.id);
 
-                <div className="absolute top-3 right-3 flex flex-col gap-1 items-end z-10">
-                  <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold tracking-wide bg-yellow-500 text-black shadow-lg">
-                    FOR SALE
-                  </span>
+            return (
+              <div
+                key={species.id}
+                onClick={() => onSelectSpecies(species)}
+                className="group cursor-pointer rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-yellow-500/30 transition-all duration-300 overflow-hidden flex flex-col"
+              >
+                <div className="relative h-48 overflow-hidden bg-black">
+                  <img
+                    src={species.image}
+                    alt={species.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  
+                  <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setZoomedSpecies(species);
+                        setZoomScale(1);
+                      }}
+                      className="p-1.5 rounded-full bg-black/80 hover:bg-yellow-500 text-zinc-300 hover:text-black border border-white/10 hover:border-transparent transition-all cursor-pointer shadow-lg"
+                      title="Zoom Image"
+                    >
+                      <ZoomIn className="w-3.5 h-3.5" />
+                    </button>
+                    
+                    <FishLikeButton 
+                      fishId={species.id} 
+                      size="sm" 
+                      variant="card-corner" 
+                    />
+                  </div>
+
+                  <div className="absolute top-3 right-3 flex flex-col gap-1 items-end z-10">
+                    <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold tracking-wide bg-yellow-500 text-black shadow-lg">
+                      FOR SALE
+                    </span>
+                  </div>
+                  <div className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-sm border border-zinc-800 px-2 py-0.5 rounded text-[10px] font-mono uppercase text-zinc-300">
+                    {species.waterType}
+                  </div>
                 </div>
-                <div className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-sm border border-zinc-800 px-2 py-0.5 rounded text-[10px] font-mono uppercase text-zinc-300">
-                  {species.waterType}
+                <div className="p-4 space-y-2 flex-grow flex flex-col justify-between bg-zinc-950/10">
+                  <div>
+                    <h3 className="text-white font-bold text-sm group-hover:text-yellow-500 transition-colors line-clamp-1">
+                      {species.name}
+                    </h3>
+                    <p className="text-zinc-500 text-xs italic line-clamp-1">
+                      {species.scientificName}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between py-1.5 px-2.5 bg-zinc-900/60 rounded-lg border border-white/5 text-[11px] font-mono">
+                    <FishLikeButton fishId={species.id} size="sm" variant="ghost" />
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCommentingFish(species);
+                      }}
+                      className="flex items-center gap-1 text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer"
+                      title="Read comments"
+                    >
+                      <MessageSquare className="w-3 h-3 text-yellow-500" />
+                      <span>{commentsCount}</span>
+                    </button>
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2 border-t border-zinc-900 text-[11px] font-mono text-zinc-400">
+                    <span>Care: {species.careLevel}</span>
+                    <span className="flex items-center gap-1 text-yellow-500 font-bold">
+                      View Specs
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="p-4 space-y-2 flex-grow flex flex-col justify-between bg-zinc-950/10">
-                <div>
-                  <h3 className="text-white font-bold text-sm group-hover:text-yellow-500 transition-colors line-clamp-1">
-                    {species.name}
-                  </h3>
-                  <p className="text-zinc-500 text-xs italic line-clamp-1">
-                    {species.scientificName}
-                  </p>
-                </div>
-                <div className="flex justify-between items-center pt-2 border-t border-zinc-900 text-[11px] font-mono text-zinc-400">
-                  <span>Care: {species.careLevel}</span>
-                  <span className="flex items-center gap-1 text-yellow-500 font-bold">
-                    View Specs
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -391,6 +424,19 @@ export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelect
             </div>
             
             <div className="flex items-center gap-2">
+              <FishLikeButton fishId={zoomedSpecies.id} size="sm" variant="pill" />
+
+              <button
+                onClick={() => {
+                  setCommentingFish(zoomedSpecies);
+                }}
+                className="p-2 bg-zinc-900 hover:bg-zinc-800 text-yellow-400 rounded-lg border border-white/5 transition-all text-xs flex items-center gap-1.5 cursor-pointer font-mono"
+                title="Open Comments"
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span className="hidden sm:inline">Comments ({getAllFishCommentsCount(zoomedSpecies.id)})</span>
+              </button>
+
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -510,6 +556,15 @@ export default function HomeView({ featuredSpecies, setTab, onZoomLogo, onSelect
             </p>
           </div>
         </div>
+      )}
+
+      {/* Community Comments Modal */}
+      {commentingFish && (
+        <FishCommentsModal
+          fish={commentingFish}
+          isOpen={!!commentingFish}
+          onClose={() => setCommentingFish(null)}
+        />
       )}
     </div>
   );
