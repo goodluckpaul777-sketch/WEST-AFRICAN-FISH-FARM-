@@ -53,7 +53,7 @@ export default function App() {
       
       {/* Top Header Navigation */}
       <header className="sticky top-0 z-50 bg-black/60 backdrop-blur-md border-b border-zinc-900">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-10 h-20 flex items-center justify-between">
           
           {/* Logo */}
           <div className="flex items-center gap-3">
@@ -169,13 +169,13 @@ export default function App() {
       )}
 
       {/* Main Container Stage */}
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 flex-grow w-full">
+      <main className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-10 py-10 flex-grow w-full">
         {renderActiveView()}
       </main>
 
       {/* Premium Dark Theme Footer */}
       <footer className="border-t border-white/10 bg-black pt-16 pb-8 mt-12 font-mono text-xs text-zinc-500">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-10">
           
           {/* Brand Col */}
           <div className="space-y-4">
@@ -228,7 +228,7 @@ export default function App() {
           <div className="space-y-4">
             <h4 className="text-white font-semibold text-[10px] uppercase tracking-wider">Secure Operations</h4>
             <p className="text-zinc-400 font-sans leading-relaxed">
-              We operate exclusively in closed systems with high-end UV filtration barriers and advanced conditioning systems.
+              We operate exclusively in a close and fish friendly environment.
             </p>
             <div className="flex gap-2 text-zinc-500">
               <span className="px-2 py-1 rounded bg-zinc-900/50 border border-white/5 text-[9px]">USDA CERTIFIED</span>

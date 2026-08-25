@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
+Sitemap: https://west-african-fish-farm.vercel.app/sitemap.xml
+

@@ -34,7 +34,6 @@ const INITIAL_LIKES_SEED: Record<string, number> = {
   "wa-dala-02": 48, // Dolphin Fish
   "wa-dala-03": 72, // African Pike
   "wa-dala-04": 89, // Congo Tetra
-  "wa-dala-05": 64, // Fresh Tilapia
 };
 
 // Seed initial authentic comments from aquarists

@@ -14,7 +14,9 @@ import {
   RotateCcw,
   X,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  LayoutGrid,
+  List
 } from "lucide-react";
 import { NEW_LIVESTOCK_DATA, StockFish } from "../data/newLivestock";
 import { LIVESTOCK_DATA } from "../data/livestock";
@@ -54,7 +56,7 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
     return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1784193162298_IMG_20260716_100812.jpg";
   }
   if (cName.includes("blood") || sName.includes("phractol") || sName.includes("phractolemus")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470344_1000502573.jpg";
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470341_1000502536__1_.jpg";
   }
   if (cName.includes("butter fly") || cName.includes("butterfly") || sName.includes("pantodon")) {
     return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779838226008_1779838206913.png";
@@ -66,7 +68,7 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
     return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169027197-xc4yqfpiuc.png";
   }
   if (cName.includes("dolphin") || sName.includes("mormyrus") || sName.includes("mommyyrus")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470350_fish_proper.png";
+    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470344_1000502573.jpg";
   }
   if (cName.includes("electric") || sName.includes("malapterurus")) {
     return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169069848-3stqpnq3xem.png";
@@ -83,7 +85,7 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
   if (cName.includes("spiny eel") || sName.includes("afromastacembelus")) {
     return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169076883-hh36491ia6j.png";
   }
-  if (cName.includes("reed") || cName.includes("rope") || sName.includes("calabaricus") || sName.includes("erpetoichthys")) {
+  if (cName.includes("reed") || cName.includes("rope") || sName.includes("calabaricus") || sName.includes("erpetoichthys") || sName.includes("calabericus")) {
     return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779843879999_1779841066099.png";
   }
   if (cName.includes("eel cat") || sName.includes("gymnallabes")) {
@@ -92,16 +94,13 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
   if (cName.includes("marble knife") || sName.includes("papyrocramus") || sName.includes("chitala")) {
     return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779836297198_IMG_20260526_160358.jpg";
   }
-  if (cName.includes("crab") || sName.includes("cardisoma")) {
+  if (cName.includes("crab") || sName.includes("cardisoma") || sName.includes("cardiosoma")) {
     return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783470991659_1783470958603.png";
   }
-  if (cName.includes("puffer") || sName.includes("tetraodon")) {
+  if (cName.includes("puffer") || sName.includes("tetraodon") || sName.includes("tetradon")) {
     return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783472096434_1778420191965.png";
   }
-  if (cName.includes("tilapia") || sName.includes("oreochromis")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/generated-images/dccce169-2461-4ca1-a9a2-4155a87190c5/fresh-tilapia-2d041fb6-1783674460297.webp";
-  }
-  if (cName.includes("red eye") || sName.includes("arnoldichthys")) {
+  if (cName.includes("red eye") || sName.includes("arnoldichthys") || sName.includes("arnoldichytis")) {
     return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169061095-drw9mthgst.png";
   }
 
@@ -125,6 +124,7 @@ export default function LiveStockView() {
     image: string;
   } | null>(null);
   const [zoomScale, setZoomScale] = useState(1);
+  const [viewMode, setViewMode] = useState<"table" | "grid">("table");
   
   // Client Info
   const [clientName, setClientName] = useState("");
@@ -282,100 +282,115 @@ ${notes || "None"}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 md:gap-10">
         
-        {/* Left Column: Stock Table */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center bg-zinc-900 border border-white/5 rounded-full px-4 py-3">
-            <Search className="w-5 h-5 text-zinc-500 mr-3" />
-            <input
-              type="text"
-              placeholder="Search by Common Name or Scientific Name..."
-              className="bg-transparent border-none text-white w-full focus:outline-none font-mono text-sm"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+        {/* Left Column: Stock Table / Grid */}
+        <div className="xl:col-span-8 space-y-6">
+          {/* Controls Bar: Search & View Switcher */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+            <div className="flex items-center bg-zinc-900/90 border border-white/10 rounded-full px-5 py-3.5 flex-1 shadow-md focus-within:border-yellow-500/50 transition-all">
+              <Search className="w-5 h-5 text-yellow-500 mr-3 flex-shrink-0" />
+              <input
+                type="text"
+                placeholder="Search species by Common or Scientific Name..."
+                className="bg-transparent border-none text-white w-full focus:outline-none font-mono text-sm placeholder:text-zinc-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchTerm && (
+                <button 
+                  onClick={() => setSearchTerm("")} 
+                  className="text-zinc-500 hover:text-white p-1"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            {/* View Mode Toggle & Counter */}
+            <div className="flex items-center justify-between sm:justify-end gap-3">
+              <span className="text-xs font-mono text-zinc-400 bg-zinc-900/80 px-3.5 py-2.5 rounded-xl border border-white/5">
+                <strong className="text-yellow-400">{filteredFishes.length}</strong> Species
+              </span>
+
+              <div className="flex items-center bg-zinc-900 p-1 rounded-xl border border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setViewMode("table")}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                    viewMode === "table"
+                      ? "bg-yellow-500 text-black font-bold shadow-md"
+                      : "text-zinc-400 hover:text-white"
+                  }`}
+                  title="Wide Table View"
+                >
+                  <List className="w-3.5 h-3.5" />
+                  <span>Table</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode("grid")}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                    viewMode === "grid"
+                      ? "bg-yellow-500 text-black font-bold shadow-md"
+                      : "text-zinc-400 hover:text-white"
+                  }`}
+                  title="Spacious Cards View"
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span>Cards</span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-zinc-900/50 border border-white/5 rounded-2xl overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-zinc-950/80 border-b border-white/5">
-                    <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Select</th>
-                    <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">S/N</th>
-                    <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Common Name</th>
-                    <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Scientific Name</th>
-                    <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Community</th>
-                    <th className="p-4 font-mono text-xs uppercase tracking-wider text-zinc-500">Qty</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5">
-                  {filteredFishes.map((fish, idx) => {
-                    const isSelected = !!selectedItems[fish.sn];
-                    
-                    // Match with gallery fish or custom image lookup
-                    const matchedGalleryFish = LIVESTOCK_DATA.find(
-                      (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() ||
-                             f.scientificName.toLowerCase() === fish.scientificName.toLowerCase()
-                    );
-                    const fishImage = matchedGalleryFish?.image || getSpeciesImage(fish.commonName, fish.scientificName);
-                    const communityId = matchedGalleryFish ? matchedGalleryFish.id : `stock_${fish.sn.toLowerCase()}`;
-                    const fishCommentsCount = getAllFishCommentsCount(communityId);
+          {/* Table View Mode */}
+          {viewMode === "table" && (
+            <div className="bg-zinc-900/40 border border-white/10 rounded-3xl overflow-hidden shadow-xl">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-[700px]">
+                  <thead>
+                    <tr className="bg-zinc-950/90 border-b border-white/10">
+                      <th className="py-4 px-5 font-mono text-xs uppercase tracking-wider text-zinc-400 w-12 text-center">Select</th>
+                      <th className="py-4 px-4 font-mono text-xs uppercase tracking-wider text-zinc-400 w-16">S/N</th>
+                      <th className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[280px]">Specimen / Common Name</th>
+                      <th className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[200px]">Scientific Name</th>
+                      <th className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[140px]">Community</th>
+                      <th className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[120px]">Order Qty</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {filteredFishes.map((fish, idx) => {
+                      const isSelected = !!selectedItems[fish.sn];
+                      
+                      // Match with gallery fish or custom image lookup
+                      const matchedGalleryFish = LIVESTOCK_DATA.find(
+                        (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() ||
+                               f.scientificName.toLowerCase() === fish.scientificName.toLowerCase()
+                      );
+                      const fishImage = matchedGalleryFish?.image || getSpeciesImage(fish.commonName, fish.scientificName);
+                      const communityId = matchedGalleryFish ? matchedGalleryFish.id : `stock_${fish.sn.toLowerCase()}`;
+                      const fishCommentsCount = getAllFishCommentsCount(communityId);
 
-                    return (
-                      <tr 
-                        key={`${fish.sn}-${fish.commonName}-${idx}`} 
-                        className={`hover:bg-white/5 transition-colors group ${isSelected ? 'bg-yellow-500/5' : ''}`}
-                      >
-                        <td className="p-4 align-middle">
-                          <input 
-                            type="checkbox" 
-                            checked={isSelected}
-                            onChange={(e) => handleCheckboxChange(fish.sn, e.target.checked)}
-                            className="w-4 h-4 rounded border-zinc-700 bg-zinc-900 text-yellow-500 focus:ring-yellow-500 cursor-pointer"
-                          />
-                        </td>
-                        <td className="p-4 text-xs font-mono text-zinc-400 align-middle">#{fish.sn}</td>
-                        <td className="p-4 align-middle">
-                          <div className="flex items-center gap-3.5">
-                            {/* Fish Photo Thumbnail */}
-                            {fishImage ? (
-                              <div
-                                onClick={() => {
-                                  setZoomedFishModal({
-                                    name: fish.commonName,
-                                    scientificName: fish.scientificName,
-                                    image: fishImage
-                                  });
-                                  setZoomScale(1);
-                                }}
-                                className="relative w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden bg-black border border-white/10 group-hover:border-yellow-500/50 flex-shrink-0 cursor-zoom-in group/thumb shadow-md"
-                                title={`Click to zoom photo of ${fish.commonName}`}
-                              >
-                                <img
-                                  src={fishImage}
-                                  alt={fish.commonName}
-                                  className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform duration-300"
-                                  referrerPolicy="no-referrer"
-                                />
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity">
-                                  <ZoomIn className="w-4 h-4 text-yellow-400 drop-shadow" />
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-zinc-800/50 border border-white/5 flex items-center justify-center flex-shrink-0 text-zinc-500">
-                                <Fish className="w-5 h-5 opacity-40 text-yellow-500/60" />
-                              </div>
-                            )}
-
-                            <div>
-                              <div className="text-sm font-semibold text-white group-hover:text-yellow-400 transition-colors">
-                                {fish.commonName}
-                              </div>
-                              {fishImage && (
-                                <button
-                                  type="button"
+                      return (
+                        <tr 
+                          key={`${fish.sn}-${fish.commonName}-${idx}`} 
+                          className={`hover:bg-yellow-500/[0.04] transition-colors group ${isSelected ? 'bg-yellow-500/10' : ''}`}
+                        >
+                          <td className="py-5 px-5 align-middle text-center">
+                            <input 
+                              type="checkbox" 
+                              checked={isSelected}
+                              onChange={(e) => handleCheckboxChange(fish.sn, e.target.checked)}
+                              className="w-5 h-5 rounded-md border-zinc-700 bg-zinc-950 text-yellow-500 focus:ring-yellow-500 cursor-pointer"
+                            />
+                          </td>
+                          <td className="py-5 px-4 text-xs font-mono text-zinc-400 align-middle font-bold">#{fish.sn}</td>
+                          <td className="py-5 px-6 align-middle">
+                            <div className="flex items-center gap-4">
+                              {/* Fish Photo Thumbnail */}
+                              {fishImage ? (
+                                <div
                                   onClick={() => {
                                     setZoomedFishModal({
                                       name: fish.commonName,
@@ -384,70 +399,256 @@ ${notes || "None"}
                                     });
                                     setZoomScale(1);
                                   }}
-                                  className="inline-flex items-center gap-1 text-[10px] font-mono text-yellow-500 hover:text-yellow-400 transition-colors cursor-pointer mt-0.5"
+                                  className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden bg-black border border-white/10 group-hover:border-yellow-500/50 flex-shrink-0 cursor-zoom-in group/thumb shadow-lg"
+                                  title={`Click to zoom photo of ${fish.commonName}`}
                                 >
-                                  <ZoomIn className="w-2.5 h-2.5" />
-                                  <span>View Photo</span>
-                                </button>
+                                  <img
+                                    src={fishImage}
+                                    alt={fish.commonName}
+                                    className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform duration-500"
+                                    referrerPolicy="no-referrer"
+                                  />
+                                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity duration-200">
+                                    <ZoomIn className="w-5 h-5 text-yellow-400 drop-shadow" />
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-zinc-800/40 border border-white/5 flex items-center justify-center flex-shrink-0 text-zinc-500">
+                                  <Fish className="w-7 h-7 opacity-30 text-yellow-500/60" />
+                                </div>
                               )}
+
+                              <div className="space-y-1">
+                                <div className="text-base font-bold text-white group-hover:text-yellow-400 transition-colors">
+                                  {fish.commonName}
+                                </div>
+                                {fishImage ? (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setZoomedFishModal({
+                                        name: fish.commonName,
+                                        scientificName: fish.scientificName,
+                                        image: fishImage
+                                      });
+                                      setZoomScale(1);
+                                    }}
+                                    className="inline-flex items-center gap-1.5 text-xs font-mono text-yellow-500 hover:text-yellow-400 transition-colors cursor-pointer"
+                                  >
+                                    <ZoomIn className="w-3.5 h-3.5" />
+                                    <span>Zoom Photo</span>
+                                  </button>
+                                ) : (
+                                  <span className="text-[11px] font-mono text-zinc-500">Specimen Available</span>
+                                )}
+                              </div>
                             </div>
-                          </div>
+                          </td>
+                          <td className="py-5 px-6 text-sm font-mono text-zinc-300 italic align-middle tracking-wide">{fish.scientificName}</td>
+                          <td className="py-5 px-6 align-middle">
+                            <div className="flex items-center gap-2">
+                              <FishLikeButton 
+                                fishId={communityId} 
+                                size="sm" 
+                                variant="ghost" 
+                              />
+                              <button
+                                onClick={() => {
+                                  setCommentingFish({
+                                    id: communityId,
+                                    name: fish.commonName,
+                                    scientificName: fish.scientificName,
+                                    image: fishImage
+                                  });
+                                }}
+                                className="px-2.5 py-1.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-yellow-400 border border-white/5 transition-colors flex items-center gap-1.5 text-xs font-mono cursor-pointer"
+                                title="View & Add Public Comments"
+                              >
+                                <MessageSquare className="w-3.5 h-3.5 text-yellow-500" />
+                                <span>{fishCommentsCount}</span>
+                              </button>
+                            </div>
+                          </td>
+                          <td className="py-5 px-6 align-middle">
+                            {isSelected ? (
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="number"
+                                  min="1"
+                                  className="w-20 bg-zinc-950 border border-yellow-500/40 rounded-xl px-3 py-2 text-white text-xs font-mono focus:outline-none focus:border-yellow-400 font-bold shadow-inner"
+                                  value={selectedItems[fish.sn] || 1}
+                                  onChange={(e) => handleQuantityChange(fish.sn, parseInt(e.target.value) || 0)}
+                                />
+                                <span className="text-xs font-mono text-zinc-400">pcs</span>
+                              </div>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => handleCheckboxChange(fish.sn, true)}
+                                className="text-xs font-mono text-zinc-500 hover:text-yellow-400 transition-colors cursor-pointer px-2.5 py-1 rounded-lg border border-dashed border-zinc-800 hover:border-yellow-500/30"
+                              >
+                                + Add Qty
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    {filteredFishes.length === 0 && (
+                      <tr>
+                        <td colSpan={6} className="py-16 text-center text-zinc-500 font-mono text-sm">
+                          <Fish className="w-10 h-10 mx-auto mb-3 opacity-20 text-yellow-500" />
+                          No species found matching "{searchTerm}".
                         </td>
-                        <td className="p-4 text-xs font-mono text-zinc-400 italic align-middle">{fish.scientificName}</td>
-                        <td className="p-4 align-middle">
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Spacious Card Grid View Mode */}
+          {viewMode === "grid" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              {filteredFishes.map((fish, idx) => {
+                const isSelected = !!selectedItems[fish.sn];
+                const matchedGalleryFish = LIVESTOCK_DATA.find(
+                  (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() ||
+                         f.scientificName.toLowerCase() === fish.scientificName.toLowerCase()
+                );
+                const fishImage = matchedGalleryFish?.image || getSpeciesImage(fish.commonName, fish.scientificName);
+                const communityId = matchedGalleryFish ? matchedGalleryFish.id : `stock_${fish.sn.toLowerCase()}`;
+                const fishCommentsCount = getAllFishCommentsCount(communityId);
+
+                return (
+                  <div 
+                    key={`${fish.sn}-${fish.commonName}-${idx}`}
+                    className={`bg-zinc-900/40 border rounded-3xl overflow-hidden flex flex-col transition-all duration-300 shadow-xl ${
+                      isSelected ? "border-yellow-500 bg-yellow-500/5 shadow-yellow-500/5" : "border-white/10 hover:border-yellow-500/30"
+                    }`}
+                  >
+                    <div 
+                      className="relative h-60 overflow-hidden bg-black flex-shrink-0 cursor-zoom-in"
+                      onClick={() => {
+                        if (fishImage) {
+                          setZoomedFishModal({
+                            name: fish.commonName,
+                            scientificName: fish.scientificName,
+                            image: fishImage
+                          });
+                          setZoomScale(1);
+                        }
+                      }}
+                    >
+                      {fishImage ? (
+                        <img 
+                          src={fishImage} 
+                          alt={fish.commonName}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-zinc-950 text-zinc-600">
+                          <Fish className="w-12 h-12 opacity-30 text-yellow-500" />
+                        </div>
+                      )}
+
+                      <div className="absolute top-4 left-4 z-10">
+                        <span className="px-3 py-1 bg-black/80 backdrop-blur-md rounded-full font-mono text-xs text-yellow-400 font-bold border border-white/10">
+                          #{fish.sn}
+                        </span>
+                      </div>
+
+                      {fishImage && (
+                        <div className="absolute top-4 right-4 z-10">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setZoomedFishModal({
+                                name: fish.commonName,
+                                scientificName: fish.scientificName,
+                                image: fishImage
+                              });
+                              setZoomScale(1);
+                            }}
+                            className="p-2 rounded-full bg-black/80 text-white hover:text-yellow-400 border border-white/10 transition-colors shadow-lg"
+                            title="Zoom Photo"
+                          >
+                            <ZoomIn className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-6 flex flex-col flex-grow space-y-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-1">{fish.commonName}</h3>
+                        <p className="text-xs font-mono text-zinc-400 italic">{fish.scientificName}</p>
+                      </div>
+
+                      {/* Community Likes & Comments */}
+                      <div className="flex items-center justify-between py-2.5 px-3.5 bg-zinc-950/70 rounded-xl border border-white/5 text-xs font-mono">
+                        <FishLikeButton fishId={communityId} size="sm" variant="pill" />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCommentingFish({
+                              id: communityId,
+                              name: fish.commonName,
+                              scientificName: fish.scientificName,
+                              image: fishImage
+                            });
+                          }}
+                          className="flex items-center gap-1.5 text-zinc-300 hover:text-yellow-400 transition-colors cursor-pointer"
+                        >
+                          <MessageSquare className="w-3.5 h-3.5 text-yellow-500" />
+                          <span>{fishCommentsCount} {fishCommentsCount === 1 ? "Comment" : "Comments"}</span>
+                        </button>
+                      </div>
+
+                      {/* Select & Quantity Bar */}
+                      <div className="pt-2 border-t border-white/5 flex items-center justify-between mt-auto">
+                        <label className="flex items-center gap-2 cursor-pointer text-xs font-mono text-zinc-300">
+                          <input 
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={(e) => handleCheckboxChange(fish.sn, e.target.checked)}
+                            className="w-4 h-4 rounded border-zinc-700 bg-zinc-950 text-yellow-500 focus:ring-yellow-500"
+                          />
+                          <span>Select to Order</span>
+                        </label>
+
+                        {isSelected && (
                           <div className="flex items-center gap-1.5">
-                            <FishLikeButton 
-                              fishId={communityId} 
-                              size="sm" 
-                              variant="ghost" 
-                            />
-                            <button
-                              onClick={() => {
-                                setCommentingFish({
-                                  id: communityId,
-                                  name: fish.commonName,
-                                  scientificName: fish.scientificName,
-                                  image: fishImage
-                                });
-                              }}
-                              className="p-1.5 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-400 hover:text-yellow-400 border border-white/5 transition-colors flex items-center gap-1 text-[10px] font-mono cursor-pointer"
-                              title="View & Add Public Comments"
-                            >
-                              <MessageSquare className="w-3 h-3 text-yellow-500" />
-                              <span>{fishCommentsCount}</span>
-                            </button>
-                          </div>
-                        </td>
-                        <td className="p-4 align-middle">
-                          {isSelected && (
                             <input
                               type="number"
                               min="1"
-                              className="w-16 bg-zinc-950 border border-white/10 rounded px-2 py-1 text-white text-xs font-mono focus:outline-none focus:border-yellow-500"
                               value={selectedItems[fish.sn] || 1}
                               onChange={(e) => handleQuantityChange(fish.sn, parseInt(e.target.value) || 0)}
+                              className="w-16 bg-zinc-950 border border-yellow-500/40 rounded-lg px-2 py-1 text-white text-xs font-mono focus:outline-none"
                             />
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  {filteredFishes.length === 0 && (
-                    <tr>
-                      <td colSpan={6} className="p-8 text-center text-zinc-500 font-mono text-sm">
-                        <Fish className="w-8 h-8 mx-auto mb-2 opacity-20" />
-                        No species found matching your search.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                            <span className="text-[10px] font-mono text-zinc-400">pcs</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              {filteredFishes.length === 0 && (
+                <div className="col-span-full py-16 text-center text-zinc-500 font-mono text-sm">
+                  <Fish className="w-10 h-10 mx-auto mb-3 opacity-20 text-yellow-500" />
+                  No species found matching "{searchTerm}".
+                </div>
+              )}
             </div>
-          </div>
+          )}
         </div>
 
         {/* Right Column: Order Form */}
-        <div className="space-y-6" id="order-form">
+        <div className="xl:col-span-4 space-y-6" id="order-form">
           <div className="bg-zinc-900/50 border border-yellow-500/30 p-6 rounded-2xl sticky top-24 shadow-2xl">
             <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2 font-display uppercase">
               <MessageSquare className="w-5 h-5 text-yellow-500" />

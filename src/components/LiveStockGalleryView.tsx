@@ -43,28 +43,36 @@ export default function LiveStockGalleryView({ onInquire }: LiveStockGalleryView
         </p>
       </div>
 
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-center mb-8">
-          <div className="flex items-center bg-zinc-900 border border-white/5 rounded-full px-4 py-3 w-full max-w-md">
-            <Search className="w-5 h-5 text-zinc-500 mr-3" />
+      <div className="w-full">
+        <div className="flex justify-center mb-10">
+          <div className="flex items-center bg-zinc-900/90 border border-white/10 rounded-full px-6 py-3.5 w-full max-w-xl shadow-lg focus-within:border-yellow-500/50 transition-all">
+            <Search className="w-5 h-5 text-yellow-500 mr-3 flex-shrink-0" />
             <input
               type="text"
-              placeholder="Search gallery..."
-              className="bg-transparent border-none text-white w-full focus:outline-none font-mono text-sm"
+              placeholder="Search gallery by common or scientific name..."
+              className="bg-transparent border-none text-white w-full focus:outline-none font-mono text-sm placeholder:text-zinc-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm("")} 
+                className="text-zinc-500 hover:text-white p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10 2xl:gap-12">
           {filteredFishes.map((fish) => {
             const commentsCount = getAllFishCommentsCount(fish.id);
 
             return (
-              <div key={fish.id} className="bg-zinc-900/50 border border-white/5 rounded-2xl overflow-hidden flex flex-col group hover:border-yellow-500/30 transition-colors">
+              <div key={fish.id} className="bg-zinc-900/40 border border-white/10 rounded-3xl overflow-hidden flex flex-col group hover:border-yellow-500/40 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-yellow-500/5">
                 <div 
-                  className="relative h-64 overflow-hidden bg-black flex-shrink-0 cursor-zoom-in"
+                  className="relative h-72 sm:h-80 md:h-88 overflow-hidden bg-black flex-shrink-0 cursor-zoom-in"
                   onClick={() => {
                     setZoomedFish(fish);
                     setZoomScale(1);
@@ -73,19 +81,19 @@ export default function LiveStockGalleryView({ onInquire }: LiveStockGalleryView
                   <img 
                     src={fish.image} 
                     alt={fish.name} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     referrerPolicy="no-referrer"
                   />
                   
                   {/* Top Left: Zoom and Heart Like Button */}
-                  <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
+                  <div className="absolute top-5 left-5 flex items-center gap-2.5 z-10">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         setZoomedFish(fish);
                         setZoomScale(1);
                       }}
-                      className="p-2 rounded-full bg-black/80 hover:bg-yellow-500 text-zinc-300 hover:text-black border border-white/10 hover:border-transparent transition-all cursor-pointer shadow-lg"
+                      className="p-2.5 rounded-full bg-black/80 hover:bg-yellow-500 text-zinc-300 hover:text-black border border-white/10 hover:border-transparent transition-all cursor-pointer shadow-lg"
                       title="Zoom Image"
                     >
                       <ZoomIn className="w-4 h-4" />
@@ -98,32 +106,32 @@ export default function LiveStockGalleryView({ onInquire }: LiveStockGalleryView
                     />
                   </div>
 
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-black/80 backdrop-blur-md rounded-full text-xs font-mono font-bold text-yellow-500 border border-yellow-500/20">
+                  <div className="absolute top-5 right-5 px-3.5 py-1.5 bg-black/80 backdrop-blur-md rounded-full text-xs font-mono font-bold text-yellow-500 border border-yellow-500/30 shadow-lg">
                     {fish.status}
                   </div>
                 </div>
                 
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="mb-3 flex items-start justify-between gap-2">
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-1">{fish.name}</h3>
-                      <p className="text-xs font-mono text-zinc-500 italic">{fish.scientificName}</p>
-                    </div>
+                <div className="p-7 md:p-8 flex flex-col flex-grow space-y-4">
+                  <div className="space-y-1">
+                    <h3 className="text-2xl font-bold text-white tracking-tight group-hover:text-yellow-400 transition-colors">
+                      {fish.name}
+                    </h3>
+                    <p className="text-xs font-mono text-zinc-400 italic tracking-wide">{fish.scientificName}</p>
                   </div>
                   
-                  <p className="text-zinc-400 text-sm mb-4 line-clamp-4 leading-relaxed font-sans">
+                  <p className="text-zinc-300 text-sm leading-relaxed font-sans font-light flex-grow">
                     {fish.description}
                   </p>
                   
                   {/* Community interaction strip on each card */}
-                  <div className="flex items-center justify-between py-2.5 px-3 bg-zinc-950/70 rounded-xl border border-white/5 mb-4 text-xs font-mono">
+                  <div className="flex items-center justify-between py-3 px-4 bg-zinc-950/80 rounded-2xl border border-white/5 text-xs font-mono">
                     <div className="flex items-center gap-2">
                       <FishLikeButton fishId={fish.id} size="sm" variant="pill" />
                     </div>
 
                     <button
                       onClick={() => setCommentingFish(fish)}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-yellow-400 border border-white/5 transition-all cursor-pointer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-yellow-400 border border-white/5 transition-all cursor-pointer"
                       title="View or add comments"
                     >
                       <MessageSquare className="w-3.5 h-3.5 text-yellow-500" />
@@ -131,22 +139,22 @@ export default function LiveStockGalleryView({ onInquire }: LiveStockGalleryView
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-white/5 mt-auto gap-2">
+                  <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-auto gap-3">
                     <button 
                       onClick={() => {
                         setZoomedFish(fish);
                         setZoomScale(1);
                       }}
-                      className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white font-mono text-xs uppercase tracking-wider rounded transition-colors flex items-center gap-1.5 cursor-pointer"
+                      className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white font-mono text-xs uppercase tracking-wider rounded-xl transition-colors flex items-center gap-2 cursor-pointer"
                     >
-                      <ZoomIn className="w-3.5 h-3.5" />
+                      <ZoomIn className="w-4 h-4 text-yellow-400" />
                       Zoom
                     </button>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2.5">
                       <button 
                         onClick={() => setCommentingFish(fish)}
-                        className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-yellow-400 font-mono font-bold text-xs uppercase tracking-wider rounded transition-colors flex items-center gap-1 cursor-pointer"
+                        className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-yellow-400 font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer border border-yellow-500/10"
                       >
                         <MessageSquare className="w-3.5 h-3.5" />
                         Discuss
@@ -154,7 +162,7 @@ export default function LiveStockGalleryView({ onInquire }: LiveStockGalleryView
 
                       <button 
                         onClick={() => onInquire(fish)}
-                        className="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-mono font-bold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer"
+                        className="px-5 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md shadow-yellow-500/10 cursor-pointer"
                       >
                         Inquire
                       </button>
