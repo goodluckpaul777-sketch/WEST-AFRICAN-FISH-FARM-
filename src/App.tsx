@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Fish, Mail, Menu, X, Waves, BookOpen, Compass, ShieldCheck, ZoomIn, ClipboardList } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { TabType, FishSpecies } from "./types";
 import { LIVESTOCK_DATA } from "./data/livestock";
+import { initFirestoreCommunityListeners } from "./lib/communityService";
 import HomeView from "./components/HomeView";
 import LiveStockView from "./components/LiveStockView";
 import LiveStockGalleryView from "./components/LiveStockGalleryView";
@@ -16,6 +17,10 @@ export default function App() {
   const [selectedSpecies, setSelectedSpecies] = useState<FishSpecies | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoZoomed, setLogoZoomed] = useState(false);
+
+  useEffect(() => {
+    initFirestoreCommunityListeners();
+  }, []);
   
   const featuredSpecies = LIVESTOCK_DATA.filter((s) => s.isFeatured);
 
@@ -302,16 +307,17 @@ export default function App() {
         </div>
       )}
 
-      {/* Floating Action Button for Stock List */}
+      {/* Floating Circular Action Button for Stock List */}
       <button
         onClick={() => {
           setActiveTab("livestock");
           setSelectedSpecies(null);
         }}
-        className="fixed bottom-6 right-6 z-50 flex items-center justify-center gap-2 px-6 py-4 bg-yellow-500 hover:bg-yellow-400 text-black rounded-full shadow-[0_0_20px_rgba(234,179,8,0.4)] transition-all transform hover:scale-105 active:scale-95 group font-mono font-bold tracking-widest text-sm"
+        className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-yellow-500 hover:bg-yellow-400 text-black rounded-full shadow-[0_0_20px_rgba(234,179,8,0.35)] hover:shadow-[0_0_25px_rgba(234,179,8,0.6)] transition-all duration-300 transform hover:scale-110 active:scale-95 group cursor-pointer border border-yellow-300/40"
+        title="View Available Stock List"
+        aria-label="View Available Stock List"
       >
-        <ClipboardList className="w-5 h-5 group-hover:-rotate-12 transition-transform" />
-        STOCK LIST
+        <ClipboardList className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-rotate-12 transition-transform duration-200" />
       </button>
 
     </div>

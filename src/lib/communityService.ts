@@ -217,6 +217,31 @@ export function getAllFishCommentsCount(fishId: string): number {
   return commentsCache.filter(c => c.fishId === fishId).length;
 }
 
+export function getAllRecentComments(limitCount = 20): FishComment[] {
+  return [...commentsCache]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, limitCount);
+}
+
+export function getTotalLikesCount(): number {
+  return Object.values(likesCache).reduce((sum, count) => sum + count, 0);
+}
+
+export function getTotalCommentsCount(): number {
+  return commentsCache.length;
+}
+
+export function getLikesMap(): Record<string, number> {
+  return { ...likesCache };
+}
+
+export function getMostLikedFishIds(limitCount = 5): Array<{ fishId: string; likes: number }> {
+  return Object.entries(likesCache)
+    .map(([fishId, likes]) => ({ fishId, likes }))
+    .sort((a, b) => b.likes - a.likes)
+    .slice(0, limitCount);
+}
+
 export async function toggleFishLike(fishId: string): Promise<{ liked: boolean; newCount: number }> {
   const userLikes = getUserLikedFishIds();
   const alreadyLiked = userLikes.has(fishId);

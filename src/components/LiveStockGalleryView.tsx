@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Search, 
   DollarSign, 
@@ -17,7 +17,7 @@ import { FishSpecies, WaterType, Temperament, CareLevel } from "../types";
 import { LIVESTOCK_DATA } from "../data/livestock";
 import FishLikeButton from "./FishLikeButton";
 import FishCommentsModal from "./FishCommentsModal";
-import { getAllFishCommentsCount } from "../lib/communityService";
+import { getAllFishCommentsCount, subscribeToCommunity } from "../lib/communityService";
 
 interface LiveStockGalleryViewProps {
   onInquire: (species: FishSpecies) => void;
@@ -28,6 +28,14 @@ export default function LiveStockGalleryView({ onInquire }: LiveStockGalleryView
   const [zoomedFish, setZoomedFish] = useState<FishSpecies | null>(null);
   const [zoomScale, setZoomScale] = useState(1);
   const [commentingFish, setCommentingFish] = useState<FishSpecies | null>(null);
+  const [, setCommunityVersion] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToCommunity(() => {
+      setCommunityVersion(v => v + 1);
+    });
+    return unsubscribe;
+  }, []);
   
   const filteredFishes = LIVESTOCK_DATA.filter(fish => 
     fish.name.toLowerCase().includes(searchTerm.toLowerCase()) || 

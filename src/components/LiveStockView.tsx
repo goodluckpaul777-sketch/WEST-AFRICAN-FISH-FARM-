@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { 
   MessageSquare, 
   Mail, 
@@ -22,7 +22,7 @@ import { NEW_LIVESTOCK_DATA, StockFish } from "../data/newLivestock";
 import { LIVESTOCK_DATA } from "../data/livestock";
 import FishLikeButton from "./FishLikeButton";
 import FishCommentsModal from "./FishCommentsModal";
-import { getAllFishCommentsCount } from "../lib/communityService";
+import { getAllFishCommentsCount, subscribeToCommunity } from "../lib/communityService";
 
 // Helper to find associated photo for any stock item
 export const getSpeciesImage = (commonName: string, scientificName: string): string | undefined => {
@@ -103,6 +103,15 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
   if (cName.includes("red eye") || sName.includes("arnoldichthys") || sName.includes("arnoldichytis")) {
     return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169061095-drw9mthgst.png";
   }
+  if (
+    cName.includes("leopard bush") || 
+    cName.includes("bush fish") || 
+    cName.includes("ctenopoma") || 
+    sName.includes("ctenopoma") || 
+    sName.includes("acutirostre")
+  ) {
+    return "/1788334104161.png";
+  }
 
   return undefined;
 };
@@ -132,6 +141,14 @@ export default function LiveStockView() {
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
   const [copied, setCopied] = useState(false);
+  const [, setCommunityVersion] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToCommunity(() => {
+      setCommunityVersion(v => v + 1);
+    });
+    return unsubscribe;
+  }, []);
 
   const filteredFishes = useMemo(() => {
     let list = NEW_LIVESTOCK_DATA;

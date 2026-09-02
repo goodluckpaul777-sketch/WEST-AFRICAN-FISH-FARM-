@@ -10,6 +10,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { FishSpecies, TabType } from "../types";
+import CommunityFeedSection from "./CommunityFeedSection";
 
 interface HomeViewProps {
   featuredSpecies?: FishSpecies[];
@@ -18,7 +19,7 @@ interface HomeViewProps {
   onSelectSpecies?: (species: FishSpecies) => void;
 }
 
-export default function HomeView({ setTab, onZoomLogo }: HomeViewProps) {
+export default function HomeView({ setTab, onZoomLogo, onSelectSpecies }: HomeViewProps) {
   return (
     <div className="space-y-20 pb-16">
       {/* Premium Hero Section */}
@@ -262,6 +263,12 @@ export default function HomeView({ setTab, onZoomLogo }: HomeViewProps) {
           </div>
         </div>
       </div>
+
+      {/* Live Aquarist Community Activity & Specimen Reviews */}
+      <CommunityFeedSection 
+        onSelectFish={(fish) => onSelectSpecies?.(fish)}
+        onOpenStockList={() => setTab("livestock")}
+      />
 
       {/* Deep-Sea Mood Banner */}
       <div className="rounded-3xl p-8 md:p-12 bg-gradient-to-br from-zinc-950 to-zinc-900/20 border border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-8">

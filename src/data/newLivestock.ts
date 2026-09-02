@@ -103,5 +103,6 @@ export const NEW_LIVESTOCK_DATA: StockFish[] = [
   { sn: "68", commonName: "Under Water Frogs", scientificName: "Pipa-pipa" },
   { sn: "42", commonName: "W.A.Tree Frogs", scientificName: "Hyperoluis species" },
   { sn: "67", commonName: "Whiptail Catfish", scientificName: "Phractura ansorgi" },
-  { sn: "107", commonName: "Dolphin Fish (Mormyrid)", scientificName: "Mormyrus longirostris" }
+  { sn: "107", commonName: "Dolphin Fish (Mormyrid)", scientificName: "Mormyrus longirostris" },
+  { sn: "108", commonName: "Leopard Bush Fish", scientificName: "Ctenopoma acutirostre" }
 ];
