@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Path for "WEST AFRICA FISH FARM" curved along the top -->
+    <!-- Center of rotation is 250,250. Radius is 182. -->
+    <path id="topTextPath" d="M 68 250 A 182 182 0 0 1 432 250" fill="none" />
+    
+    <!-- Path for "BEYOND FISHING" curved along the bottom inside the banner -->
+    <path id="bottomTextPath" d="M 125 382 Q 250 412 375 382" fill="none" />
+    
+    <!-- Gradients for realistic water and sky -->
+    <linearGradient id="skyGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef5f6" />
+      <stop offset="100%" stop-color="#d2e5e8" />
+    </linearGradient>
+
+    <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b96ab" />
+      <stop offset="100%" stop-color="#144652" />
+    </linearGradient>
+
+    <linearGradient id="fishGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#e2f0f2" />
+      <stop offset="100%" stop-color="#80afb7" />
+    </linearGradient>
+  </defs>
+
+  <!-- Cream Base Background of the Emblem -->
+  <circle cx="250" cy="250" r="240" fill="#fcfaf2" stroke="#1c5c6c" stroke-width="4" />
+
+  <!-- Outer Ring (Teal) with Cream Dots -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#1c5c6c" stroke-width="32" />
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#fcfaf2" stroke-width="6" stroke-dasharray="2 18" stroke-linecap="round" />
+
+  <!-- Inner Thin Ring Borders -->
+  <circle cx="250" cy="250" r="196" fill="none" stroke="#144652" stroke-width="2" />
+  <circle cx="250" cy="250" r="192" fill="url(#skyGradient)" />
+
+  <!-- Background West Africa Map Silhouette -->
+  <path d="M 140 120 
+           C 125 125, 115 135, 110 150 
+           C 105 165, 115 180, 125 195 
+           C 135 210, 155 220, 175 230 
+           C 195 240, 215 230, 230 210 
+           C 245 190, 235 170, 245 150 
+           C 255 130, 235 120, 210 115
+           C 185 110, 155 115, 140 120 Z" 
+        fill="#b3d3d6" opacity="0.65" />
+
+  <!-- Left Side: Fisherman in Pirogue/Canoe -->
+  <g transform="translate(105, 230) scale(0.65)" opacity="0.85">
+    <!-- Canoe -->
+    <path d="M 10 40 C 35 48, 75 48, 100 40 C 85 45, 25 45, 10 40 Z" fill="#144652" />
+    <!-- Sitting Fisherman 1 (Holding Rod) -->
+    <circle cx="40" cy="24" r="5" fill="#144652" />
+    <path d="M 35 29 L 45 29 L 43 41 L 37 41 Z" fill="#144652" />
+    <!-- Fishing Rod and Line -->
+    <line x1="40" y1="26" x2="5" y2="10" stroke="#144652" stroke-width="1.5" />
+    <line x1="5" y1="10" x2="5" y2="42" stroke="#144652" stroke-width="0.75" />
+    <!-- Sitting Companion -->
+    <circle cx="70" cy="27" r="4.5" fill="#144652" />
+    <path d="M 65 31 L 75 31 L 73 41 L 67 41 Z" fill="#144652" />
+  </g>
+
+  <!-- Right Side: Beautiful Palm Trees Silhouette -->
+  <g transform="translate(325, 155) scale(0.75)" opacity="0.9" fill="#144652">
+    <!-- Tall Tree Trunk -->
+    <path d="M 60 110 Q 48 70, 20 25 L 26 23 Q 54 68, 66 110 Z" />
+    <!-- Tall Tree Fronds -->
+    <path d="M 22 24 Q -8 15, 5 -3 Q 12 12, 22 24" />
+    <path d="M 22 24 Q -2 38, 15 52 Q 15 32, 22 24" />
+    <path d="M 22 24 Q 45 15, 50 -3 Q 32 12, 22 24" />
+    <path d="M 22 24 Q 40 35, 48 45 Q 32 30, 22 24" />
+    <path d="M 22 24 Q 15 -5, 25 -15 Q 28 5, 22 24" />
+
+    <!-- Smaller Tree Trunk -->
+    <path d="M 85 110 Q 80 75, 68 40 L 73 38 Q 85 73, 90 110 Z" />
+    <!-- Smaller Tree Fronds -->
+    <path d="M 70 39 Q 48 28, 52 12 Q 62 28, 70 39" />
+    <path d="M 70 39 Q 90 22, 95 6 Q 83 22, 70 39" />
+    <path d="M 70 39 Q 90 52, 80 62 Q 78 46, 70 39" />
+    <path d="M 70 39 Q 58 52, 60 62 Q 65 46, 70 39" />
+  </g>
+
+  <!-- Ocean Waves (Teal & Blue Layers) at the Bottom -->
+  <path d="M 60 280 
+           Q 110 260, 160 280 
+           T 260 280 
+           T 360 280 
+           T 440 280 
+           L 440 370 L 60 370 Z" 
+        fill="url(#waveGradient)" opacity="0.85" />
+  
+  <path d="M 50 305 
+           Q 100 290, 150 305 
+           T 250 305 
+           T 350 305 
+           T 450 305 
+           L 450 380 L 50 380 Z" 
+        fill="#144652" />
+
+  <!-- Splash / Sea Foam Details -->
+  <path d="M 120 285 Q 130 270, 145 280 T 170 285" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.7" />
+  <path d="M 280 295 Q 295 280, 310 290 T 330 295" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.7" />
+
+  <!-- Detailed Striped Fish Leaping Upwards and Right -->
+  <g transform="translate(235, 215) rotate(-18) scale(1.18)">
+    <!-- Back Dorsal Fin -->
+    <path d="M -25 -25 Q 15 -52, 45 -15 Q 15 -25, -25 -25" fill="#144652" stroke="#10363f" stroke-width="1.5" />
+    
+    <!-- Ventral / Pectoral Fins (with beautiful orange-red accents) -->
+    <!-- Anal Fin -->
+    <path d="M -65 18 L -85 32 C -80 20, -70 12, -65 18" fill="#e05a36" stroke="#144652" stroke-width="1.5" />
+    <!-- Pectoral Fin -->
+    <path d="M 15 15 Q 5 38, -10 30 Q 5 20, 15 15" fill="#e05a36" stroke="#144652" stroke-width="2" />
+    <!-- Pelvic Fin -->
+    <path d="M -15 22 Q -22 40, -32 35 Q -25 22, -15 22" fill="#e05a36" stroke="#144652" stroke-width="1.5" />
+
+    <!-- Tail Fin (Large, Orange-Red core, Teal edges) -->
+    <path d="M -90 8 L -125 -18 C -112 4, -112 16, -125 38 Z" fill="#e05a36" stroke="#144652" stroke-width="2.5" stroke-linejoin="round" />
+    <path d="M -90 8 L -115 -8 Q -105 10, -115 26 Z" fill="#f5815c" opacity="0.8" />
+
+    <!-- Main Fish Body -->
+    <path d="M -90 8 C -45 -34, 38 -30, 82 2 C 38 32, -45 26, -90 8" fill="url(#fishGrad)" stroke="#144652" stroke-width="3.5" />
+
+    <!-- Gill Cover & Head Details -->
+    <path d="M 42 -14 C 48 -2, 48 10, 42 20" fill="none" stroke="#144652" stroke-width="2.5" />
+    <path d="M 30 -16 C 36 -4, 36 8, 30 18" fill="none" stroke="#144652" stroke-width="1.5" />
+
+    <!-- Big Striking Eye -->
+    <circle cx="58" cy="-1.5" r="8" fill="#fcfaf2" stroke="#144652" stroke-width="2.5" />
+    <circle cx="60" cy="-1.5" r="4.5" fill="#144652" />
+    <circle cx="61.5" cy="-3" r="1.5" fill="#ffffff" />
+
+    <!-- Mouth & Sharp Teeth -->
+    <path d="M 82 2 L 56 6 C 60 12, 68 14, 73 14 L 82 2 Z" fill="#ffffff" stroke="#144652" stroke-width="2.5" />
+    <!-- Teeth paths -->
+    <path d="M 78 3 L 76 6 M 73 4 L 71 7 M 68 5 L 67 7" stroke="#144652" stroke-width="1.5" stroke-linecap="round" />
+    <path d="M 72 11 L 70 8 M 67 10 L 66 7" stroke="#144652" stroke-width="1.5" stroke-linecap="round" />
+
+    <!-- Bold Lateral Stripes (Tiger/Bass-style) -->
+    <path d="M 18 -18 C 12 -4, 15 10, 20 22" fill="none" stroke="#144652" stroke-width="3" stroke-linecap="round" />
+    <path d="M -2 -21 C -10 -5, -6 10, -3 24" fill="none" stroke="#144652" stroke-width="3" stroke-linecap="round" />
+    <path d="M -22 -22 C -30 -6, -26 10, -23 23" fill="none" stroke="#144652" stroke-width="3" stroke-linecap="round" />
+    <path d="M -42 -20 C -50 -6, -46 8, -43 20" fill="none" stroke="#144652" stroke-width="3" stroke-linecap="round" />
+    <path d="M -62 -14 C -68 -2, -66 8, -63 15" fill="none" stroke="#144652" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Scales Texture (Subtle dots) -->
+    <circle cx="-10" cy="-3" r="1" fill="#144652" opacity="0.5" />
+    <circle cx="-15" cy="5" r="1" fill="#144652" opacity="0.5" />
+    <circle cx="-30" cy="-3" r="1" fill="#144652" opacity="0.5" />
+    <circle cx="-35" cy="4" r="1" fill="#144652" opacity="0.5" />
+  </g>
+
+  <!-- Laurel Leaf Wreaths Left and Right of the Banner -->
+  <g transform="translate(62, 335) rotate(-35)" fill="#1c5c6c">
+    <!-- Left Leaf clusters -->
+    <path d="M 0 0 C -12 -12, -6 -28, 12 -34 C 6 -17, 12 -6, 0 0" />
+    <path d="M -12 -18 C -28 -24, -28 -40, -12 -46 C -6 -29, -6 -17, -12 -18" />
+    <path d="M 12 -28 C 12 -45, 28 -51, 28 -34 C 17 -28, 17 -23, 12 -28" />
+  </g>
+  <g transform="translate(438, 335) rotate(35) scale(-1, 1)" fill="#1c5c6c">
+    <!-- Right Leaf clusters -->
+    <path d="M 0 0 C -12 -12, -6 -28, 12 -34 C 6 -17, 12 -6, 0 0" />
+    <path d="M -12 -18 C -28 -24, -28 -40, -12 -46 C -6 -29, -6 -17, -12 -18" />
+    <path d="M 12 -28 C 12 -45, 28 -51, 28 -34 C 17 -28, 17 -23, 12 -28" />
+  </g>
+
+  <!-- Banner Ribbon Container for Bottom Text -->
+  <g transform="translate(0, 8)">
+    <!-- Dark Ribbon Folds / Shadows -->
+    <path d="M 85 385 L 60 360 L 60 398 L 85 395 Z" fill="#10363f" stroke="#10363f" stroke-width="1.5" />
+    <path d="M 415 385 L 440 360 L 440 398 L 415 395 Z" fill="#10363f" stroke="#10363f" stroke-width="1.5" />
+    <path d="M 60 360 L 85 365 L 85 385 L 60 398 Z" fill="#1c5c6c" stroke="#144652" stroke-width="1.5" />
+    <path d="M 440 360 L 415 365 L 415 385 L 440 398 Z" fill="#1c5c6c" stroke="#144652" stroke-width="1.5" />
+
+    <!-- Ribbon Front Main Banner Body -->
+    <path d="M 92 368 Q 250 398 408 368 L 398 408 Q 250 438 102 408 Z" fill="#ffffff" stroke="#144652" stroke-width="3.5" />
+  </g>
+
+  <!-- Decorative Scroll details below the banner -->
+  <path d="M 205 440 Q 250 452 295 440" fill="none" stroke="#1c5c6c" stroke-width="3" stroke-linecap="round" />
+  <!-- Central teardrop water motif -->
+  <path d="M 250 448 C 246 448, 244 454, 250 462 C 256 454, 254 448, 250 448 Z" fill="#1c5c6c" />
+  <circle cx="232" cy="445" r="3" fill="#1c5c6c" />
+  <circle cx="268" cy="445" r="3" fill="#1c5c6c" />
+
+  <!-- CRISP, HALO-FREE, NON-HALLUCINATED SVG TEXT ELEMENTS -->
+  <!-- Top Curved Text: "WEST AFRICA FISH FARM" -->
+  <text font-family="system-ui, -apple-system, 'Inter', sans-serif" font-weight="900" font-size="22" fill="#fcfaf2" letter-spacing="4.5">
+    <textPath href="#topTextPath" startOffset="50%" text-anchor="middle">WEST AFRICA FISH FARM</textPath>
+  </text>
+
+  <!-- Bottom Curved Text inside the Banner: "BEYOND FISHING" -->
+  <text font-family="system-ui, -apple-system, 'Inter', sans-serif" font-weight="900" font-size="18.5" fill="#144652" letter-spacing="3.2">
+    <textPath href="#bottomTextPath" startOffset="50%" text-anchor="middle">BEYOND FISHING</textPath>
+  </text>
+</svg>

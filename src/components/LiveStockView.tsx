@@ -41,67 +41,67 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
 
   // 2. Specific taxonomy & alias matches
   if (cName.includes("aba") || sName.includes("gymnarchus") || sName.includes("gynachus")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783473933773_IMG-20260706-WA0025.jpg";
+    return "/species_images/1783473933773_IMG-20260706-WA0025.jpg";
   }
   if (cName.includes("tiger") || sName.includes("hydrocynus")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1782518253432_1778424284824.png";
+    return "/species_images/1782518253432_1778424284824.png";
   }
   if (cName.includes("pike") || sName.includes("hepsetus")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787639475375_IMG_20260823_132911.jpg";
+    return "/species_images/1787639475375_IMG_20260823_132911.jpg";
   }
   if (cName.includes("arowana") || sName.includes("heterotis")) {
-    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168652642-p5yhgxv0ii.png";
+    return "/species_images/1785168652642-p5yhgxv0ii.png";
   }
   if (cName.includes("atya") || (cName.includes("shrimp") && !cName.includes("big")) || sName.includes("atya")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1784193162298_IMG_20260716_100812.jpg";
+    return "/species_images/1784193162298_IMG_20260716_100812.jpg";
   }
   if (cName.includes("blood") || sName.includes("phractol") || sName.includes("phractolemus")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470341_1000502536__1_.jpg";
+    return "/species_images/1787640470341_1000502536__1_.jpg";
   }
   if (cName.includes("butter fly") || cName.includes("butterfly") || sName.includes("pantodon")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779838226008_1779838206913.png";
+    return "/species_images/1779838226008_1779838206913.png";
   }
   if (cName.includes("congo tetra") || sName.includes("phenacogram")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787639475377_IMG_20260823_124815.jpg";
+    return "/species_images/1787639475377_IMG_20260823_124815.jpg";
   }
   if (cName.includes("costae") || sName.includes("moenkhausia")) {
-    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169027197-xc4yqfpiuc.png";
+    return "/species_images/1785169027197-xc4yqfpiuc.png";
   }
   if (cName.includes("dolphin") || sName.includes("mormyrus") || sName.includes("mommyyrus")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470344_1000502573.jpg";
+    return "/species_images/1787640470344_1000502573.jpg";
   }
   if (cName.includes("electric") || sName.includes("malapterurus")) {
-    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169069848-3stqpnq3xem.png";
+    return "/species_images/1785169069848-3stqpnq3xem.png";
   }
   if (cName.includes("elephant") || sName.includes("gnathonemus")) {
-    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168752178-hziwkg38h8a.png";
+    return "/species_images/1785168752178-hziwkg38h8a.png";
   }
   if (cName.includes("glass cat") || cName.includes("debauwie") || sName.includes("paraila") || sName.includes("eutropielus") || sName.includes("pareutropius")) {
-    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168862944-dnintsh1mt5.png";
+    return "/species_images/1785168862944-dnintsh1mt5.png";
   }
   if (cName.includes("snake") || sName.includes("channa")) {
-    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168629604-cw6k7ckebw.png";
+    return "/species_images/1785168629604-cw6k7ckebw.png";
   }
   if (cName.includes("spiny eel") || sName.includes("afromastacembelus")) {
-    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169076883-hh36491ia6j.png";
+    return "/species_images/1785169076883-hh36491ia6j.png";
   }
   if (cName.includes("reed") || cName.includes("rope") || sName.includes("calabaricus") || sName.includes("erpetoichthys") || sName.includes("calabericus")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779843879999_1779841066099.png";
+    return "/species_images/1779843879999_1779841066099.png";
   }
   if (cName.includes("eel cat") || sName.includes("gymnallabes")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779838878836_1779838608486.png";
+    return "/species_images/1779838878836_1779838608486.png";
   }
   if (cName.includes("marble knife") || sName.includes("papyrocramus") || sName.includes("chitala")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779836297198_IMG_20260526_160358.jpg";
+    return "/species_images/1779836297198_IMG_20260526_160358.jpg";
   }
   if (cName.includes("crab") || sName.includes("cardisoma") || sName.includes("cardiosoma")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783470991659_1783470958603.png";
+    return "/species_images/1783470991659_1783470958603.png";
   }
   if (cName.includes("puffer") || sName.includes("tetraodon") || sName.includes("tetradon")) {
-    return "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783472096434_1778420191965.png";
+    return "/species_images/1783472096434_1778420191965.png";
   }
   if (cName.includes("red eye") || sName.includes("arnoldichthys") || sName.includes("arnoldichytis")) {
-    return "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169061095-drw9mthgst.png";
+    return "/species_images/1785169061095-drw9mthgst.png";
   }
   if (
     cName.includes("leopard bush") || 
@@ -111,6 +111,19 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
     sName.includes("acutirostre")
   ) {
     return "/1788334104161.png";
+  }
+  if (
+    cName.includes("alestes") || 
+    cName.includes("aleste") || 
+    sName.includes("alestes") || 
+    sName.includes("brycinus") || 
+    sName.includes("logipinis") || 
+    sName.includes("longipinnis") || 
+    cName.includes("long fin alestes") || 
+    cName.includes("red tail alestes") || 
+    sName.includes("microalestes")
+  ) {
+    return "/IMG_8848.JPG";
   }
 
   return undefined;

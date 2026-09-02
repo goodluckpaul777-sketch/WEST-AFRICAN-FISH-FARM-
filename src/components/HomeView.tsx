@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { FishSpecies, TabType } from "../types";
 import CommunityFeedSection from "./CommunityFeedSection";
+import heroBgImage from "../assets/images/nigerian_fish_hero_1787653987309.jpg";
 
 interface HomeViewProps {
   featuredSpecies?: FishSpecies[];
@@ -26,10 +27,13 @@ export default function HomeView({ setTab, onZoomLogo, onSelectSpecies }: HomeVi
       <div className="relative rounded-3xl overflow-hidden border border-zinc-800 shadow-2xl bg-black">
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/35 z-10" />
         <img
-          src="/src/assets/images/nigerian_fish_hero_1787653987309.jpg"
+          src={heroBgImage}
           alt="Authentic Nigerian Freshwater Fish Biotope"
           className="w-full h-[550px] md:h-[650px] object-cover opacity-70 filter brightness-90 scale-105"
           referrerPolicy="no-referrer"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = "/assets/images/nigerian_fish_hero_1787653987309.jpg";
+          }}
         />
         <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-6 md:px-16 max-w-4xl mx-auto space-y-5">
           <div className="flex items-center justify-center">
@@ -39,10 +43,11 @@ export default function HomeView({ setTab, onZoomLogo, onSelectSpecies }: HomeVi
               title="Click logo to zoom"
             >
               <img 
-                src="https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/service_images/aa23a8fb-94cb-437b-863a-85fef7990ed6/8b5812fd-ae01-4fe5-943b-eb716ad8ecd0/1785170932529-b7f3f163-1000492224-cropped-1785170904586.jpg" 
+                src="/logo.jpg" 
                 alt="West Africa Fish Farm Logo Cover" 
                 className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover bg-white shadow-inner group-hover:scale-105 transition-transform duration-300"
-                referrerPolicy="no-referrer"
+                loading="eager"
+                decoding="async"
               />
               <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
                 <ZoomIn className="w-8 h-8 text-white drop-shadow-md" />

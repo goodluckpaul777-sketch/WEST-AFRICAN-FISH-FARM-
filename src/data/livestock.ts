@@ -15,7 +15,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A predatory snakehead species distinguished by its cylindrical body covered with transverse bars, shimmering silver spots, and strong hunting instincts.",
     origin: "West Africa & Asia River Basins",
-    image: "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168629604-cw6k7ckebw.png",
+    image: "/species_images/1785168629604-cw6k7ckebw.png",
     isFeatured: true,
   },
   {
@@ -32,7 +32,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "Distinctive freshwater species known for its unique cylindrical body, active peaceful schooling behavior, and resilience. Native to muddy streams and slow-moving rivers in West Africa.",
     origin: "West Africa (Niger Delta & Congo River Basin)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470341_1000502536__1_.jpg",
+    image: "/species_images/1787640470341_1000502536__1_.jpg",
     isFeatured: true,
   },
   {
@@ -49,7 +49,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "Unique freshwater fish with a curved snout reminiscent of a dolphin, possessing specialized electro-sensory capabilities to navigate and locate prey in murky waters.",
     origin: "West & Central African Rivers (Lake Volta & Congo Basin)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787640470344_1000502573.jpg",
+    image: "/species_images/1787640470344_1000502573.jpg",
     isFeatured: true,
   },
   {
@@ -66,7 +66,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "Predatory freshwater fish native to West and Central African river basins, noted for its elongated pike-like body, sharp dentition, and swift predatory agility.",
     origin: "West & Central Africa (Niger, Volta, and Congo Rivers)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787639475375_IMG_20260823_132911.jpg",
+    image: "/species_images/1787639475375_IMG_20260823_132911.jpg",
     isFeatured: true,
   },
   {
@@ -83,7 +83,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "Vibrant freshwater characin renowned for its shimmering iridescent rainbow scales, luminous coloration, and elegant flowing feathery fins.",
     origin: "West & Central Africa (Congo River Basin)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/64a74a2f-9c00-4b07-a951-f52adc5adda8/1787639475377_IMG_20260823_124815.jpg",
+    image: "/species_images/1787639475377_IMG_20260823_124815.jpg",
     isFeatured: true,
   },
   {
@@ -100,7 +100,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A large, ancient bonytongue species featuring prominent heavy scales, long posterior dorsal and anal fins, and visible sensory pores on the head with iridescent green, bronze, and purplish tones.",
     origin: "Africa (Nile, Niger, Senegal, and Gambia river basins)",
-    image: "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168652642-p5yhgxv0ii.png",
+    image: "/species_images/1785168652642-p5yhgxv0ii.png",
     isFeatured: true,
   },
   {
@@ -117,7 +117,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "An active and attractive schooling characin featuring a shimmering golden-silver body with a reticulated scale pattern and a distinct black horizontal stripe along the caudal peduncle extending into the tail.",
     origin: "South America / West Africa imports",
-    image: "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169027197-xc4yqfpiuc.png",
+    image: "/species_images/1785169027197-xc4yqfpiuc.png",
     isFeatured: true,
   },
   {
@@ -134,7 +134,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A striking African characin featuring prominent red upper eye coloration, shimmering iridescent green and gold body scales, and distinctly striped yellow and black dorsal and anal fins.",
     origin: "West Africa (Nigeria)",
-    image: "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169061095-drw9mthgst.png",
+    image: "/species_images/1785169061095-drw9mthgst.png",
     isFeatured: true,
   },
   {
@@ -151,7 +151,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "An extraordinary African electric catfish capable of generating electric discharges for defense and navigation, featuring a smooth, cylindrical, scaleless body.",
     origin: "West & Central Africa (Nile and Niger River Basins)",
-    image: "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169069848-3stqpnq3xem.png",
+    image: "/species_images/1785169069848-3stqpnq3xem.png",
     isFeatured: true,
   },
   {
@@ -168,7 +168,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "An elongated, eel-like freshwater fish with a pointed rostrum (snout) and a distinctive reticulated dark brown to black net-like pattern over a golden body.",
     origin: "West African River Systems",
-    image: "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785169076883-hh36491ia6j.png",
+    image: "/species_images/1785169076883-hh36491ia6j.png",
     isFeatured: true,
   },
   {
@@ -185,7 +185,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "An African weakly electric freshwater fish known for its distinct trunk-like chin extension (Schnauzenorgan) used for electroreception, dark brown body, and vertical pale bands near the posterior fins.",
     origin: "West and Central Africa (Niger and Congo River basins)",
-    image: "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168752178-hziwkg38h8a.png",
+    image: "/species_images/1785168752178-hziwkg38h8a.png",
     isFeatured: true,
   },
   {
@@ -202,7 +202,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A graceful, peaceful schooling catfish native to West Africa, characterized by a translucent silvery body with distinctive dark horizontal stripes along its flanks and long, prominent barbels.",
     origin: "West Africa (Nigeria, Benin, Niger River Basin)",
-    image: "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/shop_product_images/products/4ffd2e1c-59f6-4985-9243-82801337fa37/1785168862944-dnintsh1mt5.png",
+    image: "/species_images/1785168862944-dnintsh1mt5.png",
     isFeatured: true,
   },
   {
@@ -223,6 +223,23 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     isFeatured: true,
   },
   {
+    id: "wa-store-10",
+    name: "Alestes (African Longfin Tetra)",
+    scientificName: "Brycinus longipinnis",
+    waterType: WaterType.Freshwater,
+    temperament: Temperament.Peaceful,
+    careLevel: CareLevel.Easy,
+    minTankSize: 30,
+    diet: "Omnivore (High-quality flakes, micro-pellets, live & frozen bloodworms, daphnia, brine shrimp)",
+    tempRange: "72°F - 80°F",
+    phRange: "6.0 - 7.5",
+    status: StockStatus.InStock,
+    description: "A highly active, shimmering schooling characin indigenous to West Africa. Renowned for its luminous silvery-blue iridescence, distinct caudal spot, and elongated flowing dorsal fins in mature specimens.",
+    origin: "West Africa (Nigeria, Niger River Basin, coastal river systems)",
+    image: "/IMG_8848.JPG",
+    isFeatured: true,
+  },
+  {
     id: "wa-01",
     name: "African Tigerfish",
     scientificName: "Hydrocynus vittatus",
@@ -236,7 +253,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A legendary predatory fish known for its razor-sharp teeth and incredible speed. Sourced as a wild premium specimen from the West African Congo River basin.",
     origin: "Congo River Basin (West African Import)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1782518253432_1778424284824.png",
+    image: "/species_images/1782518253432_1778424284824.png",
     isFeatured: true,
   },
   {
@@ -253,7 +270,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "The African Giant Filter Shrimp. A peaceful, blue-tinted filter feeder that uses fans to filter food from the current. Adds peaceful prehistoric beauty to community tanks.",
     origin: "West African Rivers (Wild Harvested)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1784193162298_IMG_20260716_100812.jpg",
+    image: "/species_images/1784193162298_IMG_20260716_100812.jpg",
     isFeatured: true,
   },
   {
@@ -270,7 +287,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A fascinating nocturnal predator with distinct marble-like patterns. Uses its undulating ventral fin to swim backwards and forwards with equal elegance.",
     origin: "Southeast Asian & West African Rivers",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779836297198_IMG_20260526_160358.jpg",
+    image: "/species_images/1779836297198_IMG_20260526_160358.jpg",
     isFeatured: false,
   },
   {
@@ -287,7 +304,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "An exotic surface-dwelling fish known for its unique butterfly-like appearance and oversized pectoral fins. Can leap short distances to catch flying insects.",
     origin: "Nigeria & Cameroon Rivers (Wild Harvested)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779838226008_1779838206913.png",
+    image: "/species_images/1779838226008_1779838206913.png",
     isFeatured: true,
   },
   {
@@ -304,7 +321,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A unique species of eel-like catfish, known for its slender, serpentine body and nocturnal habits. Highly adaptive with a specialized air-breathing organ.",
     origin: "West African Estuaries (Lagos Delta Import)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779838878836_1779838608486.png",
+    image: "/species_images/1779838878836_1779838608486.png",
     isFeatured: false,
   },
   {
@@ -321,7 +338,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "An elongated, eel-like fish known for its prehistoric armor-like scales, friendly behavior, and peaceful nature. Requires a tight-fitting lid as they are known escape artists.",
     origin: "West African Rivers (Prehistoric Specimen)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1779843879999_1779841066099.png",
+    image: "/species_images/1779843879999_1779841066099.png",
     isFeatured: true,
   },
   {
@@ -338,7 +355,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A striking freshwater/land crab known for its vibrant purple, red, and blue colors. Demands an aquarium with dry resting platforms or semi-aquatic features.",
     origin: "West African Coast (Lagos Estuary)",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783470991659_1783470958603.png",
+    image: "/species_images/1783470991659_1783470958603.png",
     isFeatured: false,
   },
   {
@@ -355,7 +372,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.LowStock,
     description: "A giant, exceptionally intelligent freshwater pufferfish known for its intricate yellow labyrinth pattern and interactive personality. Demands extremely large tanks and hard food to grind down its teeth.",
     origin: "Tanganyika Lake & Congo River Basin",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783472096434_1778420191965.png",
+    image: "/species_images/1783472096434_1778420191965.png",
     isFeatured: true,
   },
   {
@@ -372,7 +389,7 @@ export const LIVESTOCK_DATA: FishSpecies[] = [
     status: StockStatus.InStock,
     description: "A unique large African knifefish known for its elongated body, dorsal fin locomotion, and ability to generate weak electric fields for navigation. Very aggressive; requires a dedicated tank.",
     origin: "Nile and West African River Systems",
-    image: "https://storage.googleapis.com/dala-prod-public-storage/attachments/66618de1-fc9f-45e0-b4d3-1b575900a875/1783473933773_IMG-20260706-WA0025.jpg",
+    image: "/species_images/1783473933773_IMG-20260706-WA0025.jpg",
     isFeatured: false,
   },
 ];

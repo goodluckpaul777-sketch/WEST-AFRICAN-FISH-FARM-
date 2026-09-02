@@ -10,7 +10,7 @@ import LiveStockGalleryView from "./components/LiveStockGalleryView";
 import AboutView from "./components/AboutView";
 import ContactView from "./components/ContactView";
 import TermsView from "./components/TermsView";
-const logoImg = "https://kpsqyyxkuvxlafrfyweo.supabase.co/storage/v1/object/public/service_images/aa23a8fb-94cb-437b-863a-85fef7990ed6/8b5812fd-ae01-4fe5-943b-eb716ad8ecd0/1785170932529-b7f3f163-1000492224-cropped-1785170904586.jpg";
+const logoImg = "/logo.jpg";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>("home");
