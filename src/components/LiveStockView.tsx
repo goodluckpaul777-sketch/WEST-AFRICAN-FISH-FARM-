@@ -16,7 +16,9 @@ import {
   ChevronLeft,
   ChevronRight,
   LayoutGrid,
-  List
+  List,
+  ArrowUpDown,
+  ArrowUp
 } from "lucide-react";
 import { NEW_LIVESTOCK_DATA, StockFish } from "../data/newLivestock";
 import { LIVESTOCK_DATA } from "../data/livestock";
@@ -25,108 +27,64 @@ import FishCommentsModal from "./FishCommentsModal";
 import { getAllFishCommentsCount, subscribeToCommunity } from "../lib/communityService";
 
 // Helper to find associated photo for any stock item
-export const getSpeciesImage = (commonName: string, scientificName: string): string | undefined => {
+// Verified 1-to-1 authentic photos for stock list items (ZERO duplicates allowed)
+export const STOCK_PHOTO_MAP: Record<string, string> = {
+  "1": "/species_images/1785168752178-hziwkg38h8a.png",               // Elephant Nose (Gnathonemus petersii)
+  "5": "/species_images/aplocheilichthys_macrophthalmus.jpg",        // Macrophthalmus Lampeye (Aplocheilichthys macrophthalmus)
+  "8": "/species_images/1785169061095-drw9mthgst.png",               // Red Eye Tetra (Arnoldichthys spilopterus)
+  "9": "/species_images/1784193162298_IMG_20260716_100812.jpg",       // Atya Shrimps / Vampire Shrimp (Atya gabonensis)
+  "10": "/IMG_8848.JPG",                                              // Alestes (Brycinus longipinnis)
+  "11": "/species_images/1783470991659_1783470958603.png",            // Rainbow Crab (Cardisoma armatum)
+  "12": "/species_images/1785168629604-cw6k7ckebw.png",               // Snake Head (Parachanna obscura)
+  "13": "/species_images/chromidotilapia_guentheri.jpg",              // Chromidotilapia Guentheri (Chromidotilapia guentheri)
+  "19": "/species_images/1779843879999_1779841066099.png",            // Reed/Rope Fish (Erpetoichthys calabaricus)
+  "20": "/species_images/1785168862944-dnintsh1mt5.png",               // Debauwie Catfish (Eutropiellus debauwi)
+  "21": "/species_images/1785169076883-hh36491ia6j.png",               // Spiny Eel (Afromastacembelus frenatus)
+  "23": "/species_images/1783473933773_IMG-20260706-WA0025.jpg",       // Aba (Gymnarchus niloticus) - Original adult Aba image
+  "23b": "/species_images/1788344173462.png",                         // Baby Aba (Gymnarchus niloticus) - Baby size image
+  "26": "/species_images/1787639475375_IMG_20260823_132911.jpg",      // Africa Pike (Hepsetus odoe)
+  "27": "/species_images/1782518253432_1778424284824.png",            // Tiger fish (Hydrocynus vittatus)
+  "28": "/species_images/1785168652642-p5yhgxv0ii.png",               // African Arowana (Heterotis niloticus)
+  "31": "/species_images/1788808699555.png",                          // Electric Catfish (Malapterurus electricus)
+  "35": "/species_images/1787640470344_1000502573.jpg",               // Dolphins / Mormyrid (Mormyrus longirostris)
+  "41": "/species_images/1779838226008_1779838206913.png",            // Butterfly Fish (Pantodon buchholzi)
+  "42": "/species_images/1779836297198_IMG_20260526_160358.jpg",      // Marble Knife (Papyrocranus afer)
+  "48": "/species_images/1787639475377_IMG_20260823_124815.jpg",      // Congo Tetra (Phenacogrammus interruptus)
+  "49": "/species_images/1787640470341_1000502536__1_.jpg",          // Blood Fish (Phractolaemus ansorgii)
+  "71": "/species_images/1783472096434_1778420191965.png",            // Puffer / Mbu (Tetraodon mbu)
+  "74": "/species_images/1785169027197-xc4yqfpiuc.png",               // Costae Tetra (Moenkhausia costae)
+  "75": "/1788334104161.png",                                         // Leopard Bush Fish (Ctenopoma acutirostre)
+  "122": "/species_images/1779838878836_1779838608486.png",          // Eel Catfish (Channallabes apus)
+};
+
+// Helper to find associated photo for any stock item without duplicating across other stocks
+export const getSpeciesImage = (commonName: string, scientificName: string, sn?: string): string | undefined => {
+  // If SN is provided, lookup STRICTLY by verified unique stock image
+  if (sn) {
+    return STOCK_PHOTO_MAP[sn];
+  }
+
   const cName = commonName.toLowerCase().trim();
   const sName = scientificName.toLowerCase().trim();
 
-  // 1. Direct match in LIVESTOCK_DATA
-  for (const item of LIVESTOCK_DATA) {
-    const itemC = item.name.toLowerCase().trim();
-    const itemS = item.scientificName.toLowerCase().trim();
-
-    if (itemC === cName || itemS === sName) return item.image;
-    if (cName.includes(itemC) || itemC.includes(cName)) return item.image;
-    if (sName.includes(itemS) || itemS.includes(sName)) return item.image;
+  // Strict match by BOTH exact commonName AND scientificName in NEW_LIVESTOCK_DATA
+  for (const [stockSn, img] of Object.entries(STOCK_PHOTO_MAP)) {
+    const stockItem = NEW_LIVESTOCK_DATA.find((item) => item.sn === stockSn);
+    if (stockItem) {
+      const stockC = stockItem.commonName.toLowerCase().trim();
+      const stockS = stockItem.scientificName.toLowerCase().trim();
+      if (stockC === cName && stockS === sName) {
+        return img;
+      }
+    }
   }
 
-  // 2. Specific taxonomy & alias matches
-  if (cName.includes("aba") || sName.includes("gymnarchus") || sName.includes("gynachus")) {
-    return "/species_images/1783473933773_IMG-20260706-WA0025.jpg";
-  }
-  if (cName.includes("tiger") || sName.includes("hydrocynus")) {
-    return "/species_images/1782518253432_1778424284824.png";
-  }
-  if (cName.includes("pike") || sName.includes("hepsetus")) {
-    return "/species_images/1787639475375_IMG_20260823_132911.jpg";
-  }
-  if (cName.includes("arowana") || sName.includes("heterotis")) {
-    return "/species_images/1785168652642-p5yhgxv0ii.png";
-  }
-  if (cName.includes("atya") || sName.includes("atya") || (cName.includes("shrimp") && !cName.includes("freshwater"))) {
-    return "/species_images/1784193162298_IMG_20260716_100812.jpg";
-  }
-  if (cName.includes("blood") || sName.includes("phractol") || sName.includes("phractolemus")) {
-    return "/species_images/1787640470341_1000502536__1_.jpg";
-  }
-  if (cName.includes("butter fly") || cName.includes("butterfly") || sName.includes("pantodon")) {
-    return "/species_images/1779838226008_1779838206913.png";
-  }
-  if (cName.includes("congo tetra") || sName.includes("phenacogram")) {
-    return "/species_images/1787639475377_IMG_20260823_124815.jpg";
-  }
-  if (cName.includes("costae") || sName.includes("moenkhausia")) {
-    return "/species_images/1785169027197-xc4yqfpiuc.png";
-  }
-  if (cName.includes("dolphin") || sName.includes("mormyrus") || sName.includes("mommyyrus")) {
-    return "/species_images/1787640470344_1000502573.jpg";
-  }
-  if (cName.includes("electric") || sName.includes("malapterurus")) {
-    return "/species_images/1785169069848-3stqpnq3xem.png";
-  }
-  if (cName.includes("elephant") || sName.includes("gnathonemus")) {
-    return "/species_images/1785168752178-hziwkg38h8a.png";
-  }
-  if (cName.includes("glass cat") || cName.includes("debauwie") || sName.includes("paraila") || sName.includes("eutropielus") || sName.includes("pareutropius")) {
-    return "/species_images/1785168862944-dnintsh1mt5.png";
-  }
-  if (cName.includes("snake") || sName.includes("channa")) {
-    return "/species_images/1785168629604-cw6k7ckebw.png";
-  }
-  if (cName.includes("spiny eel") || sName.includes("afromastacembelus")) {
-    return "/species_images/1785169076883-hh36491ia6j.png";
-  }
-  if (cName.includes("reed") || cName.includes("rope") || sName.includes("calabaricus") || sName.includes("erpetoichthys") || sName.includes("calabericus")) {
-    return "/species_images/1779843879999_1779841066099.png";
-  }
-  if (cName.includes("eel cat") || sName.includes("gymnallabes")) {
-    return "/species_images/1779838878836_1779838608486.png";
-  }
-  if (cName.includes("marble knife") || sName.includes("papyrocramus") || sName.includes("chitala")) {
-    return "/species_images/1779836297198_IMG_20260526_160358.jpg";
-  }
-  if (cName.includes("crab") || sName.includes("cardisoma") || sName.includes("cardiosoma")) {
-    return "/species_images/1783470991659_1783470958603.png";
-  }
-  if (
-    (cName.includes("mbu") || sName.includes("mbu")) &&
-    (cName.includes("puffer") || sName.includes("tetraodon") || sName.includes("tetradon"))
-  ) {
-    return "/species_images/1783472096434_1778420191965.png";
-  }
-  if (cName.includes("red eye") || sName.includes("arnoldichthys") || sName.includes("arnoldichytis")) {
-    return "/species_images/1785169061095-drw9mthgst.png";
-  }
-  if (
-    cName.includes("leopard bush") || 
-    cName.includes("bush fish") || 
-    cName.includes("ctenopoma") || 
-    sName.includes("ctenopoma") || 
-    sName.includes("acutirostre")
-  ) {
-    return "/1788334104161.png";
-  }
-  if (
-    cName.includes("alestes") || 
-    cName.includes("aleste") || 
-    sName.includes("alestes") || 
-    sName.includes("brycinus") || 
-    sName.includes("logipinis") || 
-    sName.includes("longipinnis") || 
-    cName.includes("long fin alestes") || 
-    cName.includes("red tail alestes") || 
-    sName.includes("microalestes")
-  ) {
-    return "/IMG_8848.JPG";
+  // Strict 1-to-1 match in gallery LIVESTOCK_DATA (both common and scientific must match)
+  const galleryMatch = LIVESTOCK_DATA.find(
+    (item) => item.name.toLowerCase().trim() === cName && item.scientificName.toLowerCase().trim() === sName
+  );
+  if (galleryMatch) {
+    return galleryMatch.image;
   }
 
   return undefined;
@@ -150,6 +108,17 @@ export default function LiveStockView() {
   } | null>(null);
   const [zoomScale, setZoomScale] = useState(1);
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
+  const [sortBy, setSortBy] = useState<"sn" | "name" | "scientific">("sn");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  const handleSort = (field: "sn" | "name" | "scientific") => {
+    if (sortBy === field) {
+      setSortOrder(prev => prev === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(field);
+      setSortOrder("asc");
+    }
+  };
   
   // Client Info
   const [clientName, setClientName] = useState("");
@@ -169,13 +138,35 @@ export default function LiveStockView() {
   const filteredFishes = useMemo(() => {
     let list = NEW_LIVESTOCK_DATA;
     if (searchTerm) {
+      const term = searchTerm.toLowerCase();
       list = NEW_LIVESTOCK_DATA.filter((fish) => 
-        fish.commonName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        fish.scientificName.toLowerCase().includes(searchTerm.toLowerCase())
+        fish.commonName.toLowerCase().includes(term) || 
+        fish.scientificName.toLowerCase().includes(term) ||
+        fish.sn.toLowerCase().includes(term)
       );
     }
-    return [...list].sort((a, b) => a.commonName.localeCompare(b.commonName));
-  }, [searchTerm]);
+    return [...list].sort((a, b) => {
+      if (sortBy === "sn") {
+        const numA = parseInt(a.sn.match(/\d+/)?.[0] || "999", 10);
+        const numB = parseInt(b.sn.match(/\d+/)?.[0] || "999", 10);
+        if (numA !== numB) {
+          return sortOrder === "asc" ? numA - numB : numB - numA;
+        }
+        return sortOrder === "asc" ? a.sn.localeCompare(b.sn) : b.sn.localeCompare(a.sn);
+      }
+      if (sortBy === "name") {
+        return sortOrder === "asc" 
+          ? a.commonName.localeCompare(b.commonName) 
+          : b.commonName.localeCompare(a.commonName);
+      }
+      if (sortBy === "scientific") {
+        return sortOrder === "asc" 
+          ? a.scientificName.localeCompare(b.scientificName) 
+          : b.scientificName.localeCompare(a.scientificName);
+      }
+      return 0;
+    });
+  }, [searchTerm, sortBy, sortOrder]);
 
   const handleCheckboxChange = (sn: string, checked: boolean) => {
     setSelectedItems(prev => {
@@ -340,9 +331,41 @@ ${notes || "None"}
               )}
             </div>
 
-            {/* View Mode Toggle & Counter */}
-            <div className="flex items-center justify-between sm:justify-end gap-3">
-              <span className="text-xs font-mono text-zinc-400 bg-zinc-900/80 px-3.5 py-2.5 rounded-xl border border-white/5">
+            {/* View Mode Toggle, Sort & Counter */}
+            <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2.5">
+              {/* Order Toggle */}
+              <div className="flex items-center bg-zinc-900 p-1 rounded-xl border border-white/10 text-xs font-mono">
+                <span className="text-zinc-500 px-2 py-1 flex items-center gap-1 text-[11px]">
+                  <ArrowUpDown className="w-3 h-3 text-yellow-500" />
+                  Order:
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleSort("sn")}
+                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                    sortBy === "sn"
+                      ? "bg-yellow-500 text-black font-bold shadow-md"
+                      : "text-zinc-400 hover:text-white"
+                  }`}
+                  title="Arrange in numerical S/N order (1 to 108)"
+                >
+                  S/N #{sortBy === "sn" ? (sortOrder === "asc" ? " ↑" : " ↓") : ""}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSort("name")}
+                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                    sortBy === "name"
+                      ? "bg-yellow-500 text-black font-bold shadow-md"
+                      : "text-zinc-400 hover:text-white"
+                  }`}
+                  title="Arrange alphabetically by name"
+                >
+                  A-Z{sortBy === "name" ? (sortOrder === "asc" ? " ↑" : " ↓") : ""}
+                </button>
+              </div>
+
+              <span className="text-xs font-mono text-zinc-400 bg-zinc-900/80 px-3 py-2 rounded-xl border border-white/5">
                 <strong className="text-yellow-400">{filteredFishes.length}</strong> Species
               </span>
 
@@ -383,11 +406,50 @@ ${notes || "None"}
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse min-w-[700px]">
                   <thead>
-                    <tr className="bg-zinc-950/90 border-b border-white/10">
+                    <tr className="bg-zinc-950/90 border-b border-white/10 select-none">
                       <th className="py-4 px-5 font-mono text-xs uppercase tracking-wider text-zinc-400 w-12 text-center">Select</th>
-                      <th className="py-4 px-4 font-mono text-xs uppercase tracking-wider text-zinc-400 w-16">S/N</th>
-                      <th className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[280px]">Specimen / Common Name</th>
-                      <th className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[200px]">Scientific Name</th>
+                      <th 
+                        className="py-4 px-4 font-mono text-xs uppercase tracking-wider text-zinc-400 w-24 cursor-pointer hover:text-yellow-400 transition-colors"
+                        onClick={() => handleSort("sn")}
+                        title="Click to sort by S/N order"
+                      >
+                        <div className="flex items-center gap-1.5">
+                          <span>S/N</span>
+                          {sortBy === "sn" ? (
+                            <span className="text-yellow-400 font-bold">{sortOrder === "asc" ? "↑" : "↓"}</span>
+                          ) : (
+                            <ArrowUpDown className="w-3 h-3 text-zinc-600" />
+                          )}
+                        </div>
+                      </th>
+                      <th 
+                        className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[280px] cursor-pointer hover:text-yellow-400 transition-colors"
+                        onClick={() => handleSort("name")}
+                        title="Click to sort by common name"
+                      >
+                        <div className="flex items-center gap-1.5">
+                          <span>Specimen / Common Name</span>
+                          {sortBy === "name" ? (
+                            <span className="text-yellow-400 font-bold">{sortOrder === "asc" ? "↑" : "↓"}</span>
+                          ) : (
+                            <ArrowUpDown className="w-3 h-3 text-zinc-600" />
+                          )}
+                        </div>
+                      </th>
+                      <th 
+                        className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[200px] cursor-pointer hover:text-yellow-400 transition-colors"
+                        onClick={() => handleSort("scientific")}
+                        title="Click to sort by scientific name"
+                      >
+                        <div className="flex items-center gap-1.5">
+                          <span>Scientific Name</span>
+                          {sortBy === "scientific" ? (
+                            <span className="text-yellow-400 font-bold">{sortOrder === "asc" ? "↑" : "↓"}</span>
+                          ) : (
+                            <ArrowUpDown className="w-3 h-3 text-zinc-600" />
+                          )}
+                        </div>
+                      </th>
                       <th className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[140px]">Community</th>
                       <th className="py-4 px-6 font-mono text-xs uppercase tracking-wider text-zinc-400 min-w-[120px]">Order Qty</th>
                     </tr>
@@ -396,12 +458,12 @@ ${notes || "None"}
                     {filteredFishes.map((fish, idx) => {
                       const isSelected = !!selectedItems[fish.sn];
                       
-                      // Match with gallery fish or custom image lookup
+                      // Exact 1-to-1 image lookup (strictly no duplicated images)
+                      const fishImage = getSpeciesImage(fish.commonName, fish.scientificName, fish.sn);
                       const matchedGalleryFish = LIVESTOCK_DATA.find(
-                        (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() ||
+                        (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() &&
                                f.scientificName.toLowerCase() === fish.scientificName.toLowerCase()
                       );
-                      const fishImage = matchedGalleryFish?.image || getSpeciesImage(fish.commonName, fish.scientificName);
                       const communityId = matchedGalleryFish ? matchedGalleryFish.id : `stock_${fish.sn.toLowerCase()}`;
                       const fishCommentsCount = getAllFishCommentsCount(communityId);
 
@@ -546,11 +608,12 @@ ${notes || "None"}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               {filteredFishes.map((fish, idx) => {
                 const isSelected = !!selectedItems[fish.sn];
+                // Exact 1-to-1 image lookup (strictly no duplicated images)
+                const fishImage = getSpeciesImage(fish.commonName, fish.scientificName, fish.sn);
                 const matchedGalleryFish = LIVESTOCK_DATA.find(
-                  (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() ||
+                  (f) => f.name.toLowerCase() === fish.commonName.toLowerCase() &&
                          f.scientificName.toLowerCase() === fish.scientificName.toLowerCase()
                 );
-                const fishImage = matchedGalleryFish?.image || getSpeciesImage(fish.commonName, fish.scientificName);
                 const communityId = matchedGalleryFish ? matchedGalleryFish.id : `stock_${fish.sn.toLowerCase()}`;
                 const fishCommentsCount = getAllFishCommentsCount(communityId);
 
