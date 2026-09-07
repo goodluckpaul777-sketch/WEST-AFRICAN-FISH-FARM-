@@ -1,24 +1,35 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { 
+  initializeFirestore,
   getFirestore, 
+  setLogLevel,
   doc, 
-  getDoc, 
   setDoc, 
   collection, 
-  addDoc, 
-  query, 
-  where, 
-  orderBy, 
   onSnapshot,
-  increment,
-  serverTimestamp
+  Firestore
 } from "firebase/firestore";
 import firebaseConfig from "../../firebase-applet-config.json";
 import { FishComment } from "../types";
 
-// Initialize Firebase
+// Silence internal Firestore connection retry logs to keep the console clean
+try {
+  setLogLevel("silent");
+} catch (e) {
+  // Ignore log level errors
+}
+
+// Initialize Firebase App & Firestore with fallback to long polling
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-export const db = getFirestore(app);
+let db: Firestore;
+try {
+  db = initializeFirestore(app, {
+    experimentalForceLongPolling: true
+  });
+} catch (e) {
+  db = getFirestore(app);
+}
+export { db };
 
 // Seed initial likes for a natural, authentic community feel
 const INITIAL_LIKES_SEED: Record<string, number> = {
@@ -120,14 +131,18 @@ function saveLocal() {
 
 // Subscribe to Firestore for real-time live community updates
 let isFirestoreSubscribed = false;
+let isFirestoreActive = true;
+let unsubscribeLikes: (() => void) | null = null;
+let unsubscribeComments: (() => void) | null = null;
+
 export function initFirestoreCommunityListeners() {
-  if (isFirestoreSubscribed || typeof window === "undefined") return;
+  if (isFirestoreSubscribed || typeof window === "undefined" || !isFirestoreActive) return;
   isFirestoreSubscribed = true;
 
   try {
     // Listen to likes collection
     const likesCol = collection(db, "fish_interactions");
-    onSnapshot(likesCol, (snapshot) => {
+    unsubscribeLikes = onSnapshot(likesCol, (snapshot) => {
       let changed = false;
       snapshot.forEach(docSnap => {
         const data = docSnap.data();
@@ -143,13 +158,18 @@ export function initFirestoreCommunityListeners() {
         saveLocal();
         notifySubscribers();
       }
-    }, (err) => {
-      console.log("Firestore likes live sync note:", err?.message || err);
+    }, () => {
+      // Gracefully unsubscribe if offline or backend is unavailable
+      isFirestoreActive = false;
+      if (unsubscribeLikes) {
+        unsubscribeLikes();
+        unsubscribeLikes = null;
+      }
     });
 
     // Listen to comments collection
     const commentsCol = collection(db, "fish_comments");
-    onSnapshot(commentsCol, (snapshot) => {
+    unsubscribeComments = onSnapshot(commentsCol, (snapshot) => {
       let changed = false;
       snapshot.forEach(docSnap => {
         const data = docSnap.data();
@@ -173,11 +193,15 @@ export function initFirestoreCommunityListeners() {
         saveLocal();
         notifySubscribers();
       }
-    }, (err) => {
-      console.log("Firestore comments live sync note:", err?.message || err);
+    }, () => {
+      isFirestoreActive = false;
+      if (unsubscribeComments) {
+        unsubscribeComments();
+        unsubscribeComments = null;
+      }
     });
   } catch (err) {
-    console.warn("Firestore listener init:", err);
+    isFirestoreActive = false;
   }
 }
 
@@ -266,16 +290,18 @@ export async function toggleFishLike(fishId: string): Promise<{ liked: boolean; 
   saveLocal();
   notifySubscribers();
 
-  // Sync to Firestore
-  try {
-    const interactionDoc = doc(db, "fish_interactions", fishId);
-    await setDoc(interactionDoc, {
-      fishId,
-      likesCount: newCount,
-      updatedAt: new Date().toISOString()
-    }, { merge: true });
-  } catch (err) {
-    console.log("Firestore like sync saved locally", err);
+  // Sync to Firestore if active
+  if (isFirestoreActive) {
+    try {
+      const interactionDoc = doc(db, "fish_interactions", fishId);
+      await setDoc(interactionDoc, {
+        fishId,
+        likesCount: newCount,
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+    } catch (err) {
+      // Local state is already persistent; quiet fallback
+    }
   }
 
   return { liked, newCount };
@@ -307,18 +333,20 @@ export async function addFishComment(
   saveLocal();
   notifySubscribers();
 
-  // Persist to Firestore
-  try {
-    await setDoc(doc(db, "fish_comments", commentId), {
-      fishId: newComment.fishId,
-      authorName: newComment.authorName,
-      content: newComment.content,
-      location: newComment.location,
-      createdAt: newComment.createdAt,
-      avatarColor: newComment.avatarColor
-    });
-  } catch (err) {
-    console.log("Firestore comment synced locally", err);
+  // Persist to Firestore if active
+  if (isFirestoreActive) {
+    try {
+      await setDoc(doc(db, "fish_comments", commentId), {
+        fishId: newComment.fishId,
+        authorName: newComment.authorName,
+        content: newComment.content,
+        location: newComment.location,
+        createdAt: newComment.createdAt,
+        avatarColor: newComment.avatarColor
+      });
+    } catch (err) {
+      // Local state is already persistent; quiet fallback
+    }
   }
 
   return newComment;

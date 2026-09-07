@@ -52,7 +52,7 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
   if (cName.includes("arowana") || sName.includes("heterotis")) {
     return "/species_images/1785168652642-p5yhgxv0ii.png";
   }
-  if (cName.includes("atya") || (cName.includes("shrimp") && !cName.includes("big")) || sName.includes("atya")) {
+  if (cName.includes("atya") || sName.includes("atya") || (cName.includes("shrimp") && !cName.includes("freshwater"))) {
     return "/species_images/1784193162298_IMG_20260716_100812.jpg";
   }
   if (cName.includes("blood") || sName.includes("phractol") || sName.includes("phractolemus")) {
@@ -97,7 +97,10 @@ export const getSpeciesImage = (commonName: string, scientificName: string): str
   if (cName.includes("crab") || sName.includes("cardisoma") || sName.includes("cardiosoma")) {
     return "/species_images/1783470991659_1783470958603.png";
   }
-  if (cName.includes("puffer") || sName.includes("tetraodon") || sName.includes("tetradon")) {
+  if (
+    (cName.includes("mbu") || sName.includes("mbu")) &&
+    (cName.includes("puffer") || sName.includes("tetraodon") || sName.includes("tetradon"))
+  ) {
     return "/species_images/1783472096434_1778420191965.png";
   }
   if (cName.includes("red eye") || sName.includes("arnoldichthys") || sName.includes("arnoldichytis")) {
