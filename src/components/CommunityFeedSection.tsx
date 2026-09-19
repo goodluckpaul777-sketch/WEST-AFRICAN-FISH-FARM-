@@ -32,15 +32,16 @@ interface CommunityFeedSectionProps {
 }
 
 export default function CommunityFeedSection({ onSelectFish, onOpenStockList }: CommunityFeedSectionProps) {
-  const [recentComments, setRecentComments] = useState<FishComment[]>(() => getAllRecentComments(10));
+  const [recentComments, setRecentComments] = useState<FishComment[]>(() => getAllRecentComments(20));
   const [totalLikes, setTotalLikes] = useState(() => getTotalLikesCount());
   const [totalComments, setTotalComments] = useState(() => getTotalCommentsCount());
   const [mostLiked, setMostLiked] = useState(() => getMostLikedFishIds(4));
   const [activeModalFish, setActiveModalFish] = useState<FishSpecies | null>(null);
+  const [showAllReviews, setShowAllReviews] = useState(false);
 
   useEffect(() => {
     const refreshData = () => {
-      setRecentComments(getAllRecentComments(10));
+      setRecentComments(getAllRecentComments(30));
       setTotalLikes(getTotalLikesCount());
       setTotalComments(getTotalCommentsCount());
       setMostLiked(getMostLikedFishIds(4));
@@ -135,9 +136,11 @@ export default function CommunityFeedSection({ onSelectFish, onOpenStockList }: 
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-mono font-bold text-yellow-500 uppercase tracking-widest flex items-center gap-2">
               <MessageSquare className="w-4 h-4" />
-              Latest Visitor Reviews & Comments ({recentComments.length})
+              Latest Visitor Reviews & Keeper Notes ({recentComments.length})
             </h3>
-            <span className="text-[11px] font-mono text-zinc-500">Updates live</span>
+            <span className="text-[11px] font-mono text-zinc-500">
+              {showAllReviews ? `Showing all ${recentComments.length}` : `Showing 3 of ${recentComments.length}`}
+            </span>
           </div>
 
           {recentComments.length === 0 ? (
@@ -169,7 +172,7 @@ export default function CommunityFeedSection({ onSelectFish, onOpenStockList }: 
             </div>
           ) : (
             <div className="space-y-3.5">
-              {recentComments.map((comment) => {
+              {(showAllReviews ? recentComments : recentComments.slice(0, 3)).map((comment) => {
                 const fish = getFishById(comment.fishId);
                 const fishName = fish ? fish.name : "West African Specimen";
                 const fishScientific = fish ? fish.scientificName : "";
@@ -257,6 +260,24 @@ export default function CommunityFeedSection({ onSelectFish, onOpenStockList }: 
                   </div>
                 );
               })}
+
+              {/* View More / View Less Toggle */}
+              {recentComments.length > 3 && (
+                <div className="pt-2 flex justify-center">
+                  <button
+                    onClick={() => setShowAllReviews(prev => !prev)}
+                    className="px-5 py-2.5 rounded-2xl bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/60 hover:border-yellow-500/40 text-xs font-mono text-zinc-200 hover:text-yellow-400 transition-all flex items-center gap-2 shadow-md cursor-pointer"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5 text-yellow-500" />
+                    <span>
+                      {showAllReviews 
+                        ? "Show Fewer Reviews" 
+                        : `Show More Reviews & Keeper Notes (${recentComments.length - 3} more)`
+                      }
+                    </span>
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

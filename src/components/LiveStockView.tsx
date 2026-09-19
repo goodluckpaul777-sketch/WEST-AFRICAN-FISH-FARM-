@@ -49,11 +49,14 @@ export const STOCK_PHOTO_MAP: Record<string, string> = {
   "35": "/species_images/1787640470344_1000502573.jpg",               // Dolphins / Mormyrid (Mormyrus longirostris)
   "41": "/species_images/1779838226008_1779838206913.png",            // Butterfly Fish (Pantodon buchholzi)
   "42": "/species_images/1779836297198_IMG_20260526_160358.jpg",      // Marble Knife (Papyrocranus afer)
+  "43": "/species_images/1789721168418.png",                          // Glass Cat (Parailia pellucida)
   "48": "/species_images/1787639475377_IMG_20260823_124815.jpg",      // Congo Tetra (Phenacogrammus interruptus)
   "49": "/species_images/1787640470341_1000502536__1_.jpg",          // Blood Fish (Phractolaemus ansorgii)
+  "62": "/species_images/1789721160180.png",                          // U.D.Catfish (Synodontis nigriventris)
   "71": "/species_images/1783472096434_1778420191965.png",            // Puffer / Mbu (Tetraodon mbu)
   "74": "/species_images/1785169027197-xc4yqfpiuc.png",               // Costae Tetra (Moenkhausia costae)
   "75": "/1788334104161.png",                                         // Leopard Bush Fish (Ctenopoma acutirostre)
+  "107": "/species_images/1789720251727.png",                         // Giraffe Nose / Giant Giraffe Catfish (Auchenoglanis occidentalis)
   "122": "/species_images/1779838878836_1779838608486.png",          // Eel Catfish (Channallabes apus)
 };
 
